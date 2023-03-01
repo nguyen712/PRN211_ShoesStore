@@ -9,9 +9,12 @@ namespace PRN211_ShoesStore.Models.Entity
     public class Order
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int orderId { get; set; }
 
-        [ForeignKey("UserId")]
+        public int userId { get; set; }
+
+        [ForeignKey("userId")]
         public User user { get; set; }
 
         [Column(TypeName = "Money")]

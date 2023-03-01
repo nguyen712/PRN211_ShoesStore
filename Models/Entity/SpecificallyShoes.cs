@@ -9,6 +9,7 @@ namespace PRN211_ShoesStore.Models.Entity
     public class SpecificallyShoes
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [Required]
@@ -23,7 +24,9 @@ namespace PRN211_ShoesStore.Models.Entity
 
         public DateTime? updateDate { get; set; }
 
-        [ForeignKey("ShoesId")]
+        public int shoesId { get; set; }
+
+        [ForeignKey("shoesId")]
         public Shoes shoes { get; set; }
     }
 }

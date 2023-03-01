@@ -8,6 +8,7 @@ namespace PRN211_ShoesStore.Models.Entity
     public class Image
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         public byte[] image { get; set; }

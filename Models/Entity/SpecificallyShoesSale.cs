@@ -7,9 +7,14 @@ namespace PRN211_ShoesStore.Models.Entity
     public class SpecificallyShoesSale
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
-        [ForeignKey("specificallyShoes")]
+        public int specificallyShoesId { get; set; }
+
+        public int saleId { get; set; }
+
+        [ForeignKey("specificallyShoesId")]
         public SpecificallyShoes shoes { get; set; }
 
         [ForeignKey("saleId")]

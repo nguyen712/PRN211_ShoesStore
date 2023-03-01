@@ -8,7 +8,9 @@ namespace PRN211_ShoesStore.Models.Entity
     public class Role
     {
         [Key]
-        public int roleId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int id { get; set; }
+
         [Required]
         public string roleName { get; set; }
 

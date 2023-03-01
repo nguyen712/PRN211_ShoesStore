@@ -8,12 +8,17 @@ namespace PRN211_ShoesStore.Models.Entity
     public class ShoesImage
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
-        [ForeignKey("ImageId")]
+        public int imageId { get; set; }
+
+        [ForeignKey("imageId")]
         public Image image { get; set; }
 
-        [ForeignKey("ShoesId")]
+        public int shoesId { get; set; }
+
+        [ForeignKey("shoesId")]
         public Shoes shoes { get; set; }
     }
 }

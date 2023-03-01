@@ -9,11 +9,14 @@ namespace PRN211_ShoesStore.Models.Entity
     public class User
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [Required]
         [StringLength(50)]
         public string name { get; set; }
+
+        public int roleId { get; set; }
 
         [Required]
         public string username { get; set; }
@@ -32,7 +35,7 @@ namespace PRN211_ShoesStore.Models.Entity
         [Required]
         public string email { get; set; }
 
-        [ForeignKey("RoleId")]
-        public Role role { get; set; }
+        [ForeignKey("roleId")]
+        public Role role { get; set; } 
     }
 }

@@ -7,6 +7,7 @@ namespace PRN211_ShoesStore.Models.Entity
     public class Size
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [Required]

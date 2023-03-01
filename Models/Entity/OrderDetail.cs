@@ -7,6 +7,7 @@ namespace PRN211_ShoesStore.Models.Entity
     public class OrderDetail
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [Required]
@@ -18,10 +19,14 @@ namespace PRN211_ShoesStore.Models.Entity
         [Required]
         public bool status { get; set; }
 
+        public int specificallyShoesId { get; set; }
+
+        public int orderId { get; set; }
+
         [ForeignKey("specificallyShoesId")]
         public SpecificallyShoes shoes { get; set; }
 
-        [ForeignKey("OrderId")]
+        [ForeignKey("orderId")]
         public Order order { get; set; }
 
     }

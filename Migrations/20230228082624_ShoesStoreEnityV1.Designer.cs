@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRN211_ShoesStore.Models;
 
 namespace PRN211_ShoesStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230228082624_ShoesStoreEnityV1")]
+    partial class ShoesStoreEnityV1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,10 +44,10 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("categoryId")
+                    b.Property<int?>("categoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("shoesId")
+                    b.Property<int?>("shoesId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -92,10 +94,10 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("colorId")
+                    b.Property<int?>("colorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("specificallyShoesId")
+                    b.Property<int?>("specificallyShoesId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -141,18 +143,18 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("createDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("price")
                         .HasColumnType("Money");
 
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
                     b.HasKey("orderId");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Order");
                 });
@@ -164,7 +166,7 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("orderId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<double>("price")
@@ -173,7 +175,7 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<long>("quantity")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("specificallyShoesId")
+                    b.Property<int?>("specificallyShoesId")
                         .HasColumnType("int");
 
                     b.Property<bool>("status")
@@ -181,7 +183,7 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("orderId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("specificallyShoesId");
 
@@ -190,7 +192,7 @@ namespace PRN211_ShoesStore.Migrations
 
             modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.Role", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("roleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -208,7 +210,7 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("id");
+                    b.HasKey("roleId");
 
                     b.ToTable("Role");
                 });
@@ -260,17 +262,12 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("colorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("shoesId")
+                    b.Property<int?>("ShoesId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
-                    b.HasIndex("colorId");
-
-                    b.HasIndex("shoesId");
+                    b.HasIndex("ShoesId");
 
                     b.ToTable("ShoesColor");
                 });
@@ -282,17 +279,17 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("imageId")
+                    b.Property<int?>("ImageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("shoesId")
+                    b.Property<int?>("ShoesId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
-                    b.HasIndex("imageId");
+                    b.HasIndex("ImageId");
 
-                    b.HasIndex("shoesId");
+                    b.HasIndex("ShoesId");
 
                     b.ToTable("ShoesImage");
                 });
@@ -320,6 +317,9 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ShoesId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("createDate")
                         .HasColumnType("datetime2");
 
@@ -333,15 +333,12 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<long>("quantity")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("shoesId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
 
-                    b.HasIndex("shoesId");
+                    b.HasIndex("ShoesId");
 
                     b.ToTable("ShoesSpecifically");
                 });
@@ -353,17 +350,17 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("saleId")
+                    b.Property<int?>("saleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("specificallyShoesId")
+                    b.Property<int?>("specificallyShoes")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
                     b.HasIndex("saleId");
 
-                    b.HasIndex("specificallyShoesId");
+                    b.HasIndex("specificallyShoes");
 
                     b.ToTable("SpecificallyShoesSale   ");
                 });
@@ -375,10 +372,10 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("sizeId")
+                    b.Property<int?>("sizeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("specificallyShoesId")
+                    b.Property<int?>("specificallyShoesId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -396,6 +393,9 @@ namespace PRN211_ShoesStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("createDate")
                         .HasColumnType("datetime2");
@@ -418,9 +418,6 @@ namespace PRN211_ShoesStore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("roleId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
 
@@ -430,7 +427,7 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("roleId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User");
                 });
@@ -439,15 +436,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Category", "category")
                         .WithMany()
-                        .HasForeignKey("categoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("categoryId");
 
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Shoes", "shoes")
                         .WithMany()
-                        .HasForeignKey("shoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("shoesId");
 
                     b.Navigation("category");
 
@@ -458,15 +451,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Color", "color")
                         .WithMany()
-                        .HasForeignKey("colorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("colorId");
 
                     b.HasOne("PRN211_ShoesStore.Models.Entity.SpecificallyShoes", "shoes")
                         .WithMany()
-                        .HasForeignKey("specificallyShoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("specificallyShoesId");
 
                     b.Navigation("color");
 
@@ -477,9 +466,7 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.User", "user")
                         .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("user");
                 });
@@ -488,15 +475,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Order", "order")
                         .WithMany()
-                        .HasForeignKey("orderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("PRN211_ShoesStore.Models.Entity.SpecificallyShoes", "shoes")
                         .WithMany()
-                        .HasForeignKey("specificallyShoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("specificallyShoesId");
 
                     b.Navigation("order");
 
@@ -507,15 +490,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Color", "color")
                         .WithMany()
-                        .HasForeignKey("colorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShoesId");
 
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Shoes", "shoes")
                         .WithMany()
-                        .HasForeignKey("shoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShoesId");
 
                     b.Navigation("color");
 
@@ -526,15 +505,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Image", "image")
                         .WithMany()
-                        .HasForeignKey("imageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ImageId");
 
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Shoes", "shoes")
                         .WithMany()
-                        .HasForeignKey("shoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShoesId");
 
                     b.Navigation("image");
 
@@ -545,9 +520,7 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Shoes", "shoes")
                         .WithMany()
-                        .HasForeignKey("shoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShoesId");
 
                     b.Navigation("shoes");
                 });
@@ -556,15 +529,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Sale", "sale")
                         .WithMany()
-                        .HasForeignKey("saleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("saleId");
 
                     b.HasOne("PRN211_ShoesStore.Models.Entity.SpecificallyShoes", "shoes")
                         .WithMany()
-                        .HasForeignKey("specificallyShoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("specificallyShoes");
 
                     b.Navigation("sale");
 
@@ -575,15 +544,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Size", "size")
                         .WithMany()
-                        .HasForeignKey("sizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("sizeId");
 
-                    b.HasOne("PRN211_ShoesStore.Models.Entity.SpecificallyShoes", "shoes")
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.SpecificallyShoesSize", "shoes")
                         .WithMany()
-                        .HasForeignKey("specificallyShoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("specificallyShoesId");
 
                     b.Navigation("shoes");
 
@@ -594,9 +559,7 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.Role", "role")
                         .WithMany()
-                        .HasForeignKey("roleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("role");
                 });

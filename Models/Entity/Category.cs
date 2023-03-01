@@ -7,6 +7,7 @@ namespace PRN211_ShoesStore.Models.Entity
     public class Category
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         [Required]

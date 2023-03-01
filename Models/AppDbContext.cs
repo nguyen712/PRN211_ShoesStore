@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PRN211_ShoesStore.Models.Entity;
 using System.Drawing;
+using System.IO;
 using Image = PRN211_ShoesStore.Models.Entity.Image;
 using Size = PRN211_ShoesStore.Models.Entity.Size;
 
@@ -8,17 +10,37 @@ namespace PRN211_ShoesStore.Models
 {
     public class AppDbContext : DbContext
     {
+        public AppDbContext()
+        {
+
+        }
+
         public AppDbContext(DbContextOptions<AppDbContext> context) : base(context) { }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(GetConnectionString());
+            }
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+        }
+
+        private string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+            var strConn = config["ConnectionStrings:AppConnectString"];
+            return strConn;
         }
 
         public DbSet<User> users { get; set; }

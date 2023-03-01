@@ -8,6 +8,7 @@ namespace PRN211_ShoesStore.Models.Entity
     public class Color
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]

@@ -8,10 +8,15 @@ namespace PRN211_ShoesStore.Models.Entity
     public class ColorSpecificallyShoes
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
+
+        public int specificallyShoesId { get; set; }
 
         [ForeignKey("specificallyShoesId")]
         public SpecificallyShoes shoes { get; set; }
+
+        public int colorId { get; set; }
 
         [ForeignKey("colorId")]
         public Color color { get; set; }

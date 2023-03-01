@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PRN211_ShoesStore.Models;
+using PRN211_ShoesStore.Repository;
+using PRN211_ShoesStore.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,9 @@ namespace PRN211_ShoesStore
                 string connectString = Configuration.GetConnectionString("AppConnectString");
                 option.UseSqlServer(connectString);
             });
+            services.AddSingleton<UserRepository>();
+            services.AddSingleton<RoleRepository>();
+            services.AddSingleton<UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

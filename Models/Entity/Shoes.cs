@@ -8,6 +8,7 @@ namespace PRN211_ShoesStore.Models.Entity
     public class Shoes
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
         public string name { get; set; }

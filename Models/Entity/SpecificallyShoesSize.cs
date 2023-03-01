@@ -8,10 +8,18 @@ namespace PRN211_ShoesStore.Models.Entity
     public class SpecificallyShoesSize
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
 
+
+
+
+        public int specificallyShoesId { get; set; }
+
         [ForeignKey("specificallyShoesId")]
-        public SpecificallyShoesSize shoes { get; set; }
+        public SpecificallyShoes shoes { get; set; }
+
+        public int sizeId { get; set; }
 
         [ForeignKey("sizeId")]
         public Size size { get; set; }
