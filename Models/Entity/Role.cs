@@ -19,5 +19,7 @@ namespace PRN211_ShoesStore.Models.Entity
         public DateTime? creatDate { get; set; }
 
         public DateTime? updateDate { get; set; }
+
+        public bool status { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using Image = PRN211_ShoesStore.Models.Entity.Image;
 using Size = PRN211_ShoesStore.Models.Entity.Size;
+using PRN211_ShoesStore.Models.DTO;
 
 namespace PRN211_ShoesStore.Models
 {
@@ -59,5 +60,6 @@ namespace PRN211_ShoesStore.Models
         public DbSet<ColorSpecificallyShoes> colorSpecificallyShoes { get; set; }
         public DbSet<SpecificallyShoesSale> specificallyShoesSales { get; set; }
         public DbSet<SpecificallyShoesSize> specificallyShoesSizes { get; set; }
+        public DbSet<PRN211_ShoesStore.Models.DTO.ShoesDTO> ShoesDTO { get; set; }
     }
 }

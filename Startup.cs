@@ -27,7 +27,18 @@ namespace PRN211_ShoesStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddHttpContextAccessor();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddDbContext<AppDbContext>(option =>
             {
                 string connectString = Configuration.GetConnectionString("AppConnectString");
@@ -35,12 +46,15 @@ namespace PRN211_ShoesStore
             });
             services.AddSingleton<UserRepository>();
             services.AddSingleton<RoleRepository>();
+            services.AddSingleton<ShoesRepository>();
+            services.AddSingleton<ShoesImageRepository>();
             services.AddSingleton<UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,6 +65,7 @@ namespace PRN211_ShoesStore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

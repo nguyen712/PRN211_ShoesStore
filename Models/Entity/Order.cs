@@ -20,6 +20,8 @@ namespace PRN211_ShoesStore.Models.Entity
         [Column(TypeName = "Money")]
         public decimal price { get; set; }
 
+        public bool status { get; set; }
+
         public DateTime? createDate { get; set; }
     }
 }

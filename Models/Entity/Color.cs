@@ -20,6 +20,8 @@ namespace PRN211_ShoesStore.Models.Entity
 
         public string updateBy { get; set; }
 
+        public bool status { get; set; }
+
         public DateTime? updateDate { get; set; }
     }
 }

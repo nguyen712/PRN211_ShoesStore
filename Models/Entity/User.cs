@@ -37,5 +37,7 @@ namespace PRN211_ShoesStore.Models.Entity
 
         [ForeignKey("roleId")]
         public Role role { get; set; } 
+
+        public bool status { get; set; }
     }
 }

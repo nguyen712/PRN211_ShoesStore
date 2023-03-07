@@ -19,5 +19,7 @@ namespace PRN211_ShoesStore.Models.Entity
 
         [ForeignKey("shoesId")]
         public Shoes shoes { get; set; }
+
+        public bool status { get; set; }
     }
 }

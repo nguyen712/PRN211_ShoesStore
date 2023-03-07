@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PRN211_ShoesStore.Models.DTO;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
 using System;
@@ -13,6 +14,10 @@ namespace PRN211_ShoesStore.Service
         private UserRepository _userRepository = new UserRepository();
 
         private RoleRepository _roleRepository= new RoleRepository();
+
+        private ShoesRepository _shoesRepository= new ShoesRepository();
+
+        private ShoesImageRepository shoesImageRepository= new ShoesImageRepository();
 
         public User Register(string name, string username, string pwd, string phone, string email)
         {
@@ -29,8 +34,58 @@ namespace PRN211_ShoesStore.Service
                 user.roleId = role.id;
             }
             user.createDate = System.DateTime.Now;
+            user.status = true;
             _userRepository.Create(user);
             return user;
+        }
+
+        private ShoesDTO convertShoesToShoesDTO(Shoes shoes, byte[] image)
+        {
+            ShoesDTO shoesDTO = new ShoesDTO();
+            shoesDTO.id= shoes.id;
+            shoesDTO.name= shoes.name;
+            shoesDTO.price= shoes.price;
+            shoesDTO.quantity= shoes.quantity;
+            shoesDTO.description = shoes.shoesDetails;
+            shoesDTO.image = image;
+            return shoesDTO;
+        }
+
+        private List<ShoesDTO> convertListShoestoListShoesDTO(List<Shoes> shoesList)
+        {
+            ShoesDTO shoesDTO = new ShoesDTO();
+            List<ShoesDTO> res = new List<ShoesDTO>();
+            foreach (var item in shoesList)
+            {
+                List<ShoesImage> shoesImg = shoesImageRepository.GetAll().Where(p => p.shoesId == item.id).Include(p => p.image).ToList();
+                foreach (var img in shoesImg)
+                {
+                    shoesDTO = convertShoesToShoesDTO(item, img.image.image);
+                    res.Add(shoesDTO);
+                }
+            }
+            return res;
+        }
+
+
+        public List<ShoesDTO> Search(string name)
+        {
+            List<Shoes> shoes = new List<Shoes>();
+            if (!String.IsNullOrEmpty(name))
+            {
+                shoes = _shoesRepository.GetAll().Where(p => p.name.Contains(name)).ToList();
+            }
+            else
+            {
+                shoes = _shoesRepository.GetAll().ToList();
+            }
+            return convertListShoestoListShoesDTO(shoes);
+        }
+
+        public List<ShoesDTO> ShowShoes()
+        {
+            List<Shoes> shoes = _shoesRepository.GetAll().ToList();
+            return convertListShoestoListShoesDTO(shoes);
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRN211_ShoesStore.Models;
 
 namespace PRN211_ShoesStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230301193524_ShoesStoreEnityV5")]
+    partial class ShoesStoreEnityV5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +59,6 @@ namespace PRN211_ShoesStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.HasKey("id");
 
                     b.ToTable("Category");
@@ -77,9 +76,6 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.Property<int>("shoesId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -107,9 +103,6 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<DateTime?>("createDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.Property<string>("updateBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -133,9 +126,6 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.Property<int>("specificallyShoesId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -165,9 +155,6 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<DateTime?>("lastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.Property<string>("updateBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -188,9 +175,6 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.Property<decimal>("price")
                         .HasColumnType("Money");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.Property<int>("userId")
                         .HasColumnType("int");
@@ -250,9 +234,6 @@ namespace PRN211_ShoesStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
 
@@ -270,9 +251,6 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.Property<double>("discount")
                         .HasColumnType("float");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -302,9 +280,6 @@ namespace PRN211_ShoesStore.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.HasKey("id");
 
                     b.ToTable("Shoes");
@@ -322,9 +297,6 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.Property<int>("shoesId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -348,9 +320,6 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<int>("shoesId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.HasKey("id");
 
                     b.HasIndex("imageId");
@@ -370,9 +339,6 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<string>("sizeNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -401,9 +367,6 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.Property<int>("shoesId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
@@ -489,9 +452,6 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.Property<int>("roleId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");

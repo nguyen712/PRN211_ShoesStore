@@ -12,5 +12,7 @@ namespace PRN211_ShoesStore.Models.Entity
 
         [Required]
         public string sizeNumber { get; set; }
+
+        public bool status { get; set; }
     }
 }

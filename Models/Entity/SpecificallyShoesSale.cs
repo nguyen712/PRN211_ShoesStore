@@ -19,5 +19,7 @@ namespace PRN211_ShoesStore.Models.Entity
 
         [ForeignKey("saleId")]
         public Sale sale { get; set; }
+
+        
     }
 }

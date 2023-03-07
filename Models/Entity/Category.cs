@@ -12,5 +12,7 @@ namespace PRN211_ShoesStore.Models.Entity
 
         [Required]
         public string name { get; set; }
+
+        public bool status { get; set; }
     }
 }

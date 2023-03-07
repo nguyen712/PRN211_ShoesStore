@@ -12,5 +12,7 @@ namespace PRN211_ShoesStore.Models.Entity
 
         [Required]
         public double discount { get; set; }
+
+        public bool status { get; set; }
     }
 }
