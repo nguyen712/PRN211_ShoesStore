@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using Image = PRN211_ShoesStore.Models.Entity.Image;
 using Size = PRN211_ShoesStore.Models.Entity.Size;
-using PRN211_ShoesStore.Models.DTO;
 
 namespace PRN211_ShoesStore.Models
 {

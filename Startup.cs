@@ -45,6 +45,11 @@ namespace PRN211_ShoesStore
                 string connectString = Configuration.GetConnectionString("AppConnectString");
                 option.UseSqlServer(connectString);
             });
+
+            services.AddScoped(typeof(IRepository<>), typeof(IRepository<>));
+
+            services.AddScoped<IShoesService, ShoesService>();
+
             services.AddSingleton<UserRepository>();
             services.AddSingleton<RoleRepository>();
             services.AddSingleton<ShoesRepository>();
