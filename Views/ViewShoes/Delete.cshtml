@@ -1,0 +1,58 @@
+﻿@page
+@model PRN211_ShoesStore.Views.ViewShoes.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Shoes</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.shoesDetails)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.shoesDetails)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.launchDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.launchDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.quantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.quantity)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Shoes.id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

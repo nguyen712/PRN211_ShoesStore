@@ -1,0 +1,74 @@
+﻿@model IEnumerable<PRN211_ShoesStore.Models.Entity.Shoes>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/LayoutLogin.cshtml";
+}
+
+<h1>Index</h1>
+
+<img src="D:\on-git-project\PRN211_ShoesStoreV1\Layout\HTML\images\featured-job\img-2.png">
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shoesDetails)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.launchDate)
+            </th>
+            <th>
+                hahaha
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    <img src="file:///C:/Users/phata/OneDrive/Desktop/Allaia%20Shoe%20Store/html/img/products/shoes/1_b.jpg" alt="@Html.DisplayFor(modelItem => item.image)">
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shoesDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.launchDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

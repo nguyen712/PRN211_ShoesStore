@@ -259,6 +259,9 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("launchDate")
                         .HasColumnType("datetime2");
 
@@ -266,7 +269,8 @@ namespace PRN211_ShoesStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<long>("quantity")
                         .HasColumnType("bigint");

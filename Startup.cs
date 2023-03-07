@@ -46,9 +46,10 @@ namespace PRN211_ShoesStore
                 option.UseSqlServer(connectString);
             });
 
-            services.AddScoped(typeof(IRepository<>), typeof(IRepository<>));
-
+            //
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IShoesService, ShoesService>();
+            //
 
             services.AddSingleton<UserRepository>();
             services.AddSingleton<RoleRepository>();
@@ -85,6 +86,16 @@ namespace PRN211_ShoesStore
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "shoes",
+                    pattern: "{controller=Shoes}/{action=Index}/{id?}");
+            });
+
+            
+
         }
     }
 }

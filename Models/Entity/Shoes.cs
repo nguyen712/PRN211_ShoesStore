@@ -13,6 +13,8 @@ namespace PRN211_ShoesStore.Models.Entity
 
         public string name { get; set; }
 
+        public string image { get; set; }
+
         public decimal price { get; set; }
 
         [StringLength(200)]

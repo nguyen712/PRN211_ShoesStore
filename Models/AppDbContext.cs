@@ -31,9 +31,15 @@ namespace PRN211_ShoesStore.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //add precistion for 'price' of shoes
+            modelBuilder.Entity<Shoes>()
+                .Property(s => s.price)
+                .HasPrecision(18, 4);
+
         }
 
-        private string GetConnectionString()
+    private string GetConnectionString()
         {
             IConfiguration config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

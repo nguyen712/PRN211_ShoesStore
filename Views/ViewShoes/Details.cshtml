@@ -1,0 +1,55 @@
+﻿@page
+@model PRN211_ShoesStore.Views.ViewShoes.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Shoes</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.shoesDetails)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.shoesDetails)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.launchDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.launchDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Shoes.quantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Shoes.quantity)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Shoes.id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
