@@ -28,6 +28,8 @@ namespace PRN211_ShoesStore.Models.Entity
 
         public DateTime? updateDate { get; set; }
 
+        public string address { get; set; }
+
         [Required]
         [StringLength(50)]
         public string phone { get; set; }

@@ -8,6 +8,7 @@ using PRN211_ShoesStore.Repository;
 using PRN211_ShoesStore.Service;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,9 +53,16 @@ namespace PRN211_ShoesStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string firstName, string lastName, string username, string pwd, string phone, string email)
+        public IActionResult Register([RegularExpression(@"^[a-zA-Z]$", ErrorMessage = "FirstName should not contain numbers.")] string firstName, [RegularExpression(@"^[a-zA-Z]$", ErrorMessage = "LastName should not contain numbers.")] string lastName, string username, string pwd, string confirmPwd, [RegularExpression(@"^\d{10}$", ErrorMessage = "Please enter a valid 10-digits number.")]string phone, string email)
         {
-            return View(_userService.Register(name, username, pwd, phone, email));
+            Object obj = _userService.Register(firstName + " " + lastName, username, pwd, confirmPwd, phone, email);
+            if (obj is string)
+            {
+                ModelState.AddModelError("error", obj.ToString());
+                return RedirectToAction("Error");
+            }
+            User user = (User)obj;
+            return View(user);
         }
 
         [HttpPost]

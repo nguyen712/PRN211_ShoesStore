@@ -60,6 +60,6 @@ namespace PRN211_ShoesStore.Models
         public DbSet<ColorSpecificallyShoes> colorSpecificallyShoes { get; set; }
         public DbSet<SpecificallyShoesSale> specificallyShoesSales { get; set; }
         public DbSet<SpecificallyShoesSize> specificallyShoesSizes { get; set; }
-        public DbSet<PRN211_ShoesStore.Models.DTO.ShoesDTO> ShoesDTO { get; set; }
+        
     }
 }

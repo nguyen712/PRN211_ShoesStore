@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PRN211_ShoesStore.Models.DTO;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
+using PRN211_ShoesStore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,21 @@ namespace PRN211_ShoesStore.Service
 
         private ShoesImageRepository shoesImageRepository= new ShoesImageRepository();
 
-        public User Register(string name, string username, string pwd, string phone, string email)
+        public Object Register(string name, string username, string pwd, string confirmPwd, string phone, string email)
         {
+            bool pwdEqual = String.Equals(pwd, confirmPwd, StringComparison.OrdinalIgnoreCase);
+            if(pwdEqual == false)
+            {
+                return "password and confirm password is not match";
+            }
+            if (ValidateForm.IsValidEmail(email))
+            {
+                return "Email is wrong format buikhoinguyen2001@gmail.com";
+            }
+            if (String.IsNullOrEmpty(email))
+            {
+                return "Email is null or empty";
+            }
             var user = new User();
             user.name = name;
             user.username = username;
