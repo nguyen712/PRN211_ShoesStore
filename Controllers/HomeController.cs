@@ -33,12 +33,12 @@ namespace PRN211_ShoesStore.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Views/Home/Index.cshtml");
         }
 
         public IActionResult Login()
         {
-            return View();
+            return View("Views/Home/Login.cshtml");
         }
 
         [HttpPost]
