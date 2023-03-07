@@ -24,23 +24,9 @@ namespace PRN211_ShoesStore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult Edit()
         {
             return View();
-        }
-
-        
-
-        [HttpPost]
-        public IActionResult Register(string name, string username, string pwd, string phone, string email)
-        {
-            return View(_userService.Register(name, username, pwd, phone, email));
         }
 
         [HttpGet]

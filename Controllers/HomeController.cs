@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using PRN211_ShoesStore.Models;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
+using PRN211_ShoesStore.Service;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,18 +18,21 @@ namespace PRN211_ShoesStore.Controllers
     {
         private UserRepository userRepository;
 
+        private UserService _userService;
+
         private RoleRepository roleRepository;
 
         private readonly ILogger<HomeController> _logger;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor, UserRepository _userRepository, RoleRepository _roleRepository)
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor, UserRepository _userRepository, RoleRepository _roleRepository, UserService userService)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             userRepository = _userRepository;
-            roleRepository= _roleRepository;
+            roleRepository = _roleRepository;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -39,6 +43,18 @@ namespace PRN211_ShoesStore.Controllers
         public IActionResult Login()
         {
             return View("Views/Home/Login.cshtml");
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(string firstName, string lastName, string username, string pwd, string phone, string email)
+        {
+            return View(_userService.Register(name, username, pwd, phone, email));
         }
 
         [HttpPost]
