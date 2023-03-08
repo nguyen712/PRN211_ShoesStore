@@ -12,35 +12,38 @@ namespace PRN211_ShoesStore.Service
 {
     public class UserService
     {
-        private UserRepository _userRepository = new UserRepository();
+        private UserRepository _userRepository;
 
-        private RoleRepository _roleRepository= new RoleRepository();
+        private RoleRepository _roleRepository;
 
-        private ShoesRepository _shoesRepository= new ShoesRepository();
+        private ShoesRepository _shoesRepository;
 
-        private ShoesImageRepository shoesImageRepository= new ShoesImageRepository();
+        private ShoesImageRepository _shoesImageRepository;
 
-        public Object Register(string name, string username, string pwd, string confirmPwd, string phone, string email)
+        public UserService(UserRepository userRepository, RoleRepository roleRepository, ShoesRepository shoesRepository, ShoesImageRepository shoesImageRepository)
         {
-            bool pwdEqual = String.Equals(pwd, confirmPwd, StringComparison.OrdinalIgnoreCase);
-            if(pwdEqual == false)
-            {
-                return "password and confirm password is not match";
-            }
-            if (ValidateForm.IsValidEmail(email))
-            {
-                return "Email is wrong format buikhoinguyen2001@gmail.com";
-            }
-            if (String.IsNullOrEmpty(email))
-            {
-                return "Email is null or empty";
-            }
+            _userRepository = userRepository;
+            _roleRepository = roleRepository;
+            _shoesRepository= shoesRepository;
+            _shoesImageRepository = shoesImageRepository;
+
+        }
+
+        public User checkUsernameIsExisted(string username)
+        {
+            User user = _userRepository.GetAll().ToList().Where(u => u.username== username).FirstOrDefault();
+            return user;
+        }
+
+        public User Register(string name, string username, string pwd, string phone, string email, string address)
+        {
             var user = new User();
             user.name = name;
             user.username = username;
             user.password = pwd;
             user.phone = phone;
             user.email = email;
+            user.address = address;
             Role role = _roleRepository.GetAll().ToList().Where(r => r.roleName.Equals("User")).First();
             //List<User> users = _userRepository.GetAll().Include(x => x.role).ToList();
             if (role != null)
@@ -71,7 +74,7 @@ namespace PRN211_ShoesStore.Service
             List<ShoesDTO> res = new List<ShoesDTO>();
             foreach (var item in shoesList)
             {
-                List<ShoesImage> shoesImg = shoesImageRepository.GetAll().Where(p => p.shoesId == item.id).Include(p => p.image).ToList();
+                List<ShoesImage> shoesImg = _shoesImageRepository.GetAll().Where(p => p.shoesId == item.id).Include(p => p.image).ToList();
                 foreach (var img in shoesImg)
                 {
                     shoesDTO = convertShoesToShoesDTO(item, img.image.image);

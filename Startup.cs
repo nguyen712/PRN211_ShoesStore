@@ -46,12 +46,12 @@ namespace PRN211_ShoesStore
                 option.UseSqlServer(connectString);
             });
 
-            //
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IShoesService, ShoesService>();
-            //
 
-            services.AddSingleton<UserRepository>();
+            services.AddScoped<ICartService, CartService>();
+
+			services.AddSingleton<UserRepository>();
             services.AddSingleton<RoleRepository>();
             services.AddSingleton<ShoesRepository>();
             services.AddSingleton<ShoesImageRepository>();

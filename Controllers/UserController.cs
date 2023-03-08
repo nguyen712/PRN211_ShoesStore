@@ -8,9 +8,15 @@ namespace PRN211_ShoesStore.Controllers
 {
     public class UserController : Controller
     {
-        private UserService _userService = new UserService();
+        private UserService _userService;
 
-        private RoleRepository roleRepository= new RoleRepository();
+        private RoleRepository _roleRepository;
+
+        public UserController(UserService userService, RoleRepository roleRepository)
+        {
+            _userService = userService;
+            _roleRepository = roleRepository;
+        }
 
         public IActionResult Index()
         {

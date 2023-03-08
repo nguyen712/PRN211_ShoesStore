@@ -6,6 +6,7 @@ using PRN211_ShoesStore.Models;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
 using PRN211_ShoesStore.Service;
+using PRN211_ShoesStore.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -61,16 +62,69 @@ namespace PRN211_ShoesStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register([RegularExpression(@"^[a-zA-Z]$", ErrorMessage = "FirstName should not contain numbers.")] string firstName, [RegularExpression(@"^[a-zA-Z]$", ErrorMessage = "LastName should not contain numbers.")] string lastName, string username, string pwd, string confirmPwd, [RegularExpression(@"^\d{10}$", ErrorMessage = "Please enter a valid 10-digits number.")]string phone, string email)
+        public IActionResult Register(string firstName,string lastName, string username, string pwd, string confirmPwd,string phone, string email, string address)
         {
-            Object obj = _userService.Register(firstName + " " + lastName, username, pwd, confirmPwd, phone, email);
-            if (obj is string)
+            
+            bool flag = true;
+			bool pwdEqual = String.Equals(pwd, confirmPwd, StringComparison.OrdinalIgnoreCase);
+			if (pwdEqual == false)
+			{
+                TempData["ErrorPasswordIsNotMatch"] = "password and confirm password is not match.";
+                flag = false;
+			}
+
+            if (ValidateForm.StartWithANumber(username) == true)
             {
-                ModelState.AddModelError("error", obj.ToString());
-                return RedirectToAction("Error");
+                TempData["ErrorUsernamemailFormat"] = "Username can not start with a number.";
+                flag = false;
             }
-            User user = (User)obj;
-            return View(user);
+
+            if (ValidateForm.ContaintOnlyChar(firstName) == false)
+            {
+				TempData["ErrorFistName"] = "Firstname can not contain number.";
+				flag = false;
+			}
+
+			if (ValidateForm.ContaintOnlyChar(lastName) == false)
+			{
+				TempData["ErrorlastName"] = "LastName can not contain number.";
+				flag = false;
+			}
+
+			if (ValidateForm.IsValidEmail(email) == false)
+			{
+				TempData["ErrorEmailFormat"] = "Email is wrong format buikhoinguyen2001@gmail.com.";
+                flag = false;
+			}
+
+			if (ValidateForm.StartWithANumber(email) == true)
+			{
+				TempData["ErrorEmailFormat"] = "Email can not start with a number.";
+				flag = false;
+			}
+
+			if (ValidateForm.IsValidPhone(phone) == false)
+			{
+				TempData["ErrorPhoneFormat"] = "Phone must be a string number with 10 digits.";
+				flag = false;
+			}
+
+            if (_userService.checkUsernameIsExisted(username) != null)
+            {
+				TempData["ErrorUsername"] = "Username is existed.";
+				flag = false;
+			}
+            
+			if (flag)
+            {
+				User user = _userService.Register(firstName + " " + lastName, username, pwd, phone, email, address);
+                bool res = MailUtils.SendMail("nguyenbkse151446@fpt.edu.vn", email, "Mail Xac Nhan Email Da dang ky thanh cong", "Hello Mr/Mrs " + firstName);
+                if (res == false)
+                {
+                    TempData["ErrorEmailFormat"] = "Email is not existed";
+                }
+            }
+            return View();
         }
 
         [HttpPost]
