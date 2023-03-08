@@ -7,7 +7,7 @@
 
 <h1>Index</h1>
 
-<img src="D:\on-git-project\PRN211_ShoesStoreV1\Layout\HTML\images\featured-job\img-2.png">
+<img src="~/images/1_b.jpg">
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -43,7 +43,7 @@
 @foreach (var item in Model) {
         <tr>
                 <td>
-                    <img src="file:///C:/Users/phata/OneDrive/Desktop/Allaia%20Shoe%20Store/html/img/products/shoes/1_b.jpg" alt="@Html.DisplayFor(modelItem => item.image)">
+                    <img src="@Html.DisplayFor(modelItem => item.image)" alt="@Html.DisplayFor(modelItem => item.image)">
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => item.name)
