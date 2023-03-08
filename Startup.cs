@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PRN211_CartItemStore.Service;
 using PRN211_ShoesStore.Models;
 using PRN211_ShoesStore.Repository;
 using PRN211_ShoesStore.Service;
@@ -50,8 +51,7 @@ namespace PRN211_ShoesStore
             services.AddScoped<IShoesService, ShoesService>();
 
             services.AddScoped<ICartService, CartService>();
-
-			services.AddSingleton<UserRepository>();
+			      services.AddSingleton<UserRepository>();
             services.AddSingleton<RoleRepository>();
             services.AddSingleton<ShoesRepository>();
             services.AddSingleton<ShoesImageRepository>();
