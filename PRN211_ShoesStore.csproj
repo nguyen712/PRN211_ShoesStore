@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\.DS_Store" />
+   <None Include="wwwroot\css\.DS_Store" />
     <None Include="wwwroot\css\about.css" />
     <None Include="wwwroot\css\account.css" />
     <None Include="wwwroot\css\ajax-loader.gif" />
