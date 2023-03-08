@@ -23,22 +23,30 @@ namespace PRN211_ShoesStore.Controllers
 
         private RoleRepository roleRepository;
 
+        private readonly IShoesService _shoesService;
+
         private readonly ILogger<HomeController> _logger;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor, UserRepository _userRepository, RoleRepository _roleRepository, UserService userService)
+        public HomeController(ILogger<HomeController> logger, 
+            IHttpContextAccessor httpContextAccessor, 
+            UserRepository _userRepository, 
+            RoleRepository _roleRepository, 
+            UserService userService, 
+            IShoesService shoesService)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             userRepository = _userRepository;
             roleRepository = _roleRepository;
             _userService = userService;
+            _shoesService = shoesService;
         }
 
         public IActionResult Index()
         {
-            return View("Views/Home/Index.cshtml");
+            return View(_shoesService.GetShoes());
         }
 
         public IActionResult Login()
