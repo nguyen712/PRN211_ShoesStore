@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRN211_ShoesStore.Models;
 
 namespace PRN211_ShoesStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230308091311_ShoesStoreEnityV9")]
+    partial class ShoesStoreEnityV9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +34,6 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShoesImg")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SpecificallyShoesId")
                         .HasColumnType("int");
 
@@ -46,7 +45,7 @@ namespace PRN211_ShoesStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("cartItems");
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.Category", b =>
