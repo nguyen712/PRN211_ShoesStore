@@ -1,21 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using PRN211_ShoesStore.Models;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
 using PRN211_ShoesStore.Service;
 using PRN211_ShoesStore.Utils;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
 namespace PRN211_ShoesStore.Controllers
 {
     public class HomeController : Controller
@@ -32,10 +25,7 @@ namespace PRN211_ShoesStore.Controllers
 
 		private readonly ILogger<HomeController> _logger;
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public HomeController(ILogger<HomeController> logger, 
-            IHttpContextAccessor httpContextAccessor, 
+        public HomeController(ILogger<HomeController> logger,
             UserRepository _userRepository, 
             RoleRepository _roleRepository, 
             UserService userService, 
@@ -43,13 +33,12 @@ namespace PRN211_ShoesStore.Controllers
 			ICategoryService categoryService)
         {
             _logger = logger;
-            _httpContextAccessor = httpContextAccessor;
             userRepository = _userRepository;
             roleRepository = _roleRepository;
             _userService = userService;
             _shoesService = shoesService;
             _categoryService = categoryService;
-
+            
 		}
 
         public IActionResult Index()
@@ -57,11 +46,8 @@ namespace PRN211_ShoesStore.Controllers
 			//TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());
 			//TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
              
-            var username = HttpContext.Session.GetString("username");
-			var name = HttpContext.Session.GetString("name");
-			var email = HttpContext.Session.GetString("email");
-			var userId = HttpContext.Session.GetString("userId");
-			var userRole = HttpContext.Session.GetString("userRole");
+            
+			var userId = HttpContext.Session.GetInt32("UserId");
 			if (userId != null)
 			{
 				// Do something with the userId value
@@ -77,6 +63,7 @@ namespace PRN211_ShoesStore.Controllers
 
         public IActionResult Login()
         {
+            
             return View("Views/Home/Login.cshtml");
         }
 
@@ -154,42 +141,27 @@ namespace PRN211_ShoesStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string name, string password)
+        public IActionResult Login(string username, string password)
 		{
-           var data = userRepository.GetAll().Include(x => x.role).Where(p => p.name.Equals(name) && p.password.Equals(password)).ToList();   
-            if (data.Count() > 0)
+            var user = _userService.login(username, password);
+            if (user.id > 0)
             {
-                User user = data.FirstOrDefault();
-                if (user.status == true)
+                if (user.role.roleName.Equals("User"))
                 {
-					if (user.role.roleName.Equals("User"))
-					{
-						HttpContext.Session.SetString("password", user.password);
-						HttpContext.Session.SetString("name", user.name);
-						HttpContext.Session.SetString("email", user.email);
-						HttpContext.Session.SetString("userId", user.id.ToString());
-						HttpContext.Session.SetString("userRole", user.role.roleName);
-						HttpContext.Session.SetString("phone", user.phone);
-
-						return RedirectToAction("Index", "Home");
-					}
-					if (user.role.roleName.Equals("Admin"))
-					{
-						HttpContext.Session.SetString("username", user.username);
-						HttpContext.Session.SetString("name", user.name);
-						HttpContext.Session.SetString("email", user.email);
-						HttpContext.Session.SetString("userId", user.id.ToString());
-						HttpContext.Session.SetString("userRole", user.role.roleName);
-						return RedirectToAction("ShowShoes", "User");
-					}
-				} else
+                    HttpContext.Session.SetInt32("UserId", user.id);
+                    return RedirectToAction("Index", "Home");
+                }else if (user.role.roleName.Equals("Admin"))
                 {
-					ViewBag.error = "Your account is expired";
-					return RedirectToAction("Index");
-				}
+                    HttpContext.Session.SetInt32("UserId", user.id);
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    TempData["ErrorLogin"] = "Your role is not permited.";
+                }
             }
-            ViewBag.error = "Username or Password is invalid";
-            return RedirectToAction("Index", "Home");
+            TempData["ErrorLogin"] = "Username or password is invalid.";
+            return RedirectToAction("Login", "Home");
         }
 
 
