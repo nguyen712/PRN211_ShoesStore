@@ -1,8 +1,13 @@
 @model IEnumerable<PRN211_ShoesStore.Models.Entity.Shoes>
+@using Newtonsoft.Json;
+@using PRN211_ShoesStore.Models;
+@using PRN211_ShoesStore.Models.Entity;
+@using System.Text.Json
 
 @{
 	ViewData["Title"] = "Home Page";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	IEnumerable<Category> categories = JsonConvert.DeserializeObject<IEnumerable<Category>>((string)TempData["Categories"]);
 }
 <!-- main -->
 <main>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using PRN211_ShoesStore.Models;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
@@ -26,7 +27,10 @@ namespace PRN211_ShoesStore.Controllers
 
         private readonly IShoesService _shoesService;
 
-        private readonly ILogger<HomeController> _logger;
+		private readonly ICategoryService _categoryService;
+
+
+		private readonly ILogger<HomeController> _logger;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -35,7 +39,8 @@ namespace PRN211_ShoesStore.Controllers
             UserRepository _userRepository, 
             RoleRepository _roleRepository, 
             UserService userService, 
-            IShoesService shoesService)
+            IShoesService shoesService,
+			ICategoryService categoryService)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
@@ -43,11 +48,16 @@ namespace PRN211_ShoesStore.Controllers
             roleRepository = _roleRepository;
             _userService = userService;
             _shoesService = shoesService;
-        }
+            _categoryService = categoryService;
+
+		}
 
         public IActionResult Index()
         {
-            return View(_shoesService.GetShoes());
+			TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategory());
+			//TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
+            var shoesList = _shoesService.GetShoes();
+			return View("/Views/Home/Index.cshtml", shoesList);
         }
 
         public IActionResult Login()

@@ -48,6 +48,7 @@ namespace PRN211_ShoesStore
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IShoesService, ShoesService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddScoped<ICartService, CartService>();
 			      services.AddSingleton<UserRepository>();
