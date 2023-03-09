@@ -5,6 +5,6 @@ namespace PRN211_ShoesStore.Service
 {
 	public interface ICategoryService
 	{
-		public IEnumerable<Category> GetCategory();
+		public IEnumerable<Category> GetCategories();
 	}
 }

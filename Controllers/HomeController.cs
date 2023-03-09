@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace PRN211_ShoesStore.Controllers
 {
@@ -28,7 +29,6 @@ namespace PRN211_ShoesStore.Controllers
         private readonly IShoesService _shoesService;
 
 		private readonly ICategoryService _categoryService;
-
 
 		private readonly ILogger<HomeController> _logger;
 
@@ -54,10 +54,24 @@ namespace PRN211_ShoesStore.Controllers
 
         public IActionResult Index()
         {
-			TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategory());
+			//TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());
 			//TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
-            var shoesList = _shoesService.GetShoes();
-			return View("/Views/Home/Index.cshtml", shoesList);
+            var username = HttpContext.Session.GetString("username");
+			var name = HttpContext.Session.GetString("name");
+			var email = HttpContext.Session.GetString("email");
+			var userId = HttpContext.Session.GetString("userId");
+			var userRole = HttpContext.Session.GetString("userRole");
+			if (userId != null)
+			{
+				// Do something with the userId value
+				var shoesList = _shoesService.GetShoes().ToList();
+				return View("/Views/Home/Index.cshtml", shoesList);
+			}
+
+            return View("Views/Home/Register.cshtml");
+
+
+			
         }
 
         public IActionResult Login()
@@ -133,45 +147,48 @@ namespace PRN211_ShoesStore.Controllers
                 {
                     TempData["ErrorEmailFormat"] = "Email is not existed";
                 }
+                return View("Views/Home/Login.cshtml");
             }
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(string username, string password)
-        {
-           var data = userRepository.GetAll().Include(x => x.role).Where(p => p.username.Equals(username) && p.password.Equals(password)).ToList();   
+        public IActionResult Login(string name, string password)
+		{
+           var data = userRepository.GetAll().Include(x => x.role).Where(p => p.name.Equals(name) && p.password.Equals(password)).ToList();   
             if (data.Count() > 0)
             {
                 User user = data.FirstOrDefault();
-                if (user.role.roleName.Equals("User"))
-                {
-                    HttpContext.Session.SetString("password", user.password);
-                    HttpContext.Session.SetString("name", user.name);
-                    HttpContext.Session.SetString("email", user.email);
-                    HttpContext.Session.SetString("userId", user.id.ToString());
-                    HttpContext.Session.SetString("userRole", user.role.roleName);
-                    HttpContext.Session.SetString("phone", user.phone);
-                    return RedirectToAction("Index", "User");
-                }
-                if (user.role.roleName.Equals("Admin"))
-                {
-                    HttpContext.Session.SetString("username", user.username);
-                    HttpContext.Session.SetString("name", user.name);
-                    HttpContext.Session.SetString("email", user.email);
-                    HttpContext.Session.SetString("userId", user.id.ToString());
-                    HttpContext.Session.SetString("userRole", user.role.roleName);
-                    return RedirectToAction("ShowShoes", "User");
-                }
-
                 if (user.status == true)
                 {
-                    ViewBag.error = "Your account is expired";
-                    return RedirectToAction("Index");
-                }
+					if (user.role.roleName.Equals("User"))
+					{
+						HttpContext.Session.SetString("password", user.password);
+						HttpContext.Session.SetString("name", user.name);
+						HttpContext.Session.SetString("email", user.email);
+						HttpContext.Session.SetString("userId", user.id.ToString());
+						HttpContext.Session.SetString("userRole", user.role.roleName);
+						HttpContext.Session.SetString("phone", user.phone);
+
+						return RedirectToAction("Index", "Home");
+					}
+					if (user.role.roleName.Equals("Admin"))
+					{
+						HttpContext.Session.SetString("username", user.username);
+						HttpContext.Session.SetString("name", user.name);
+						HttpContext.Session.SetString("email", user.email);
+						HttpContext.Session.SetString("userId", user.id.ToString());
+						HttpContext.Session.SetString("userRole", user.role.roleName);
+						return RedirectToAction("ShowShoes", "User");
+					}
+				} else
+                {
+					ViewBag.error = "Your account is expired";
+					return RedirectToAction("Index");
+				}
             }
             ViewBag.error = "Username or Password is invalid";
-            return RedirectToAction("Index", "HomeController");
+            return RedirectToAction("Index", "Home");
         }
 
 
