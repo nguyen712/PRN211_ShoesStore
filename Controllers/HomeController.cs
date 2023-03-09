@@ -56,6 +56,7 @@ namespace PRN211_ShoesStore.Controllers
         {
 			//TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());
 			//TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
+             
             var username = HttpContext.Session.GetString("username");
 			var name = HttpContext.Session.GetString("name");
 			var email = HttpContext.Session.GetString("email");
