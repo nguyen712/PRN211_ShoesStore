@@ -6,7 +6,8 @@ namespace PRN211_ShoesStore.Service
     public interface IShoesService
     {
         IEnumerable<Shoes> GetShoes();
-        Shoes GetShoesById(int shoesId);
+		IEnumerable<Shoes> GetShoesByCategoryId(int categoryId);
+		Shoes GetShoesById(int shoesId);
         IEnumerable<Shoes> GetShoesByName(string shoesname);
         public bool UpdateShoes(Shoes shoes);
     }

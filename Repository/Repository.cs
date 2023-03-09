@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
 using System;
+using PRN211_ShoesStore.Models.Entity;
 
 namespace PRN211_ShoesStore.Repository
 {
@@ -81,5 +82,24 @@ namespace PRN211_ShoesStore.Repository
                 return false;
             }
         }
-    }
+
+		public IEnumerable<Shoes> GetShoesByCategoryId(int categoryId)
+		{
+			try
+			{
+				var shoes = from cs in _appDbContext.categoryShoes
+							where cs.categoryId == categoryId && cs.status == true
+							select cs.shoes;
+
+				return shoes.ToList();
+			}
+			catch (Exception ex)
+			{
+				// handle the exception or log it
+				Console.WriteLine(ex.ToString());
+				// return an empty collection or re-throw the exception
+				return Enumerable.Empty<Shoes>();
+			}
+		}
+	}
 }
