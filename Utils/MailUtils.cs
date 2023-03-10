@@ -30,7 +30,7 @@ namespace PRN211_ShoesStore.Utils
 				smtp.Send(message);
 				return true;
 			}
-			catch (Exception ex)
+			catch (SmtpFailedRecipientException ex)
 			{
 				return false;
 			}

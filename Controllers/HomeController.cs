@@ -52,13 +52,10 @@ namespace PRN211_ShoesStore.Controllers
 			{
 				// Do something with the userId value
 				var shoesList = _shoesService.GetShoes().ToList();
-				return View("/Views/Home/Index.cshtml", shoesList);
+				return View(shoesList);
 			}
 
             return View("Views/Home/Register.cshtml");
-
-
-			
         }
 
         public IActionResult Login()

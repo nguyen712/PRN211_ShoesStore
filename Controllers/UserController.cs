@@ -10,7 +10,7 @@ namespace PRN211_ShoesStore.Controllers
     {
         private UserService _userService;
 
-        private RoleRepository _roleRepository;
+        private RoleRepository _roleRepository; 
 
         public UserController(UserService userService, RoleRepository roleRepository)
         {
