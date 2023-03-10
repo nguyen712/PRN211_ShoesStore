@@ -56,6 +56,13 @@ namespace PRN211_ShoesStore.Service
             return user;
         }
 
+
+        public User login(string Username, string password)
+        {
+            var user = _userRepository.GetAll().Include(r => r.role).ToList().Where(r => r.username.Equals(Username) && r.password.Equals(password)).FirstOrDefault();
+            return user;
+        }
+
         private ShoesDTO convertShoesToShoesDTO(Shoes shoes, byte[] image)
         {
             ShoesDTO shoesDTO = new ShoesDTO();

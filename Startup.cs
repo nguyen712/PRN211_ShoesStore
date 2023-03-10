@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace PRN211_ShoesStore
 {
@@ -28,16 +29,10 @@ namespace PRN211_ShoesStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddDistributedMemoryCache();
 
             services.AddHttpContextAccessor();
+            services.AddSession();
 
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(option =>
@@ -72,6 +67,7 @@ namespace PRN211_ShoesStore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -84,7 +80,7 @@ namespace PRN211_ShoesStore
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Login}/{id?}");
             });
 
             app.UseEndpoints(endpoints =>

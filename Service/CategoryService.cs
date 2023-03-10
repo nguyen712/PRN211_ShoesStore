@@ -15,7 +15,7 @@ namespace PRN211_ShoesStore.Service
 		}
 		// CartItem == doi giay
 		//Get list of CartItem
-		public IEnumerable<Category> GetCategory()
+		public IEnumerable<Category> GetCategories()
 		{
 			return _categoryRepository.GetData();
 		}
