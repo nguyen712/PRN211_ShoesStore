@@ -24,8 +24,12 @@ namespace PRN211_ShoesStore.Controllers
         public IActionResult Index()
         {
             return View(_shoesService.GetShoes());
-            
         }
+        //public IActionResult SortShoeByCategory()
+        //{
+        //    //return View(_shoesService.GetShoes());
+        //    return View(_shoesService.GetShoesByCategoryId(1));
+        //}
 
         // GET: Shoes/Details/5 - da chinh sua
         public async Task<IActionResult> Details(int id)

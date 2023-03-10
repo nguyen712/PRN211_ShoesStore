@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 using System;
+using PRN211_ShoesStore.Models.Entity;
 
 namespace PRN211_ShoesStore.Repository
 {
@@ -13,5 +14,9 @@ namespace PRN211_ShoesStore.Repository
         bool Update(T entity);
 
         IEnumerable<T> GetData(Expression<Func<T, bool>> expression = null);
-    }
+
+        //shoes
+        IEnumerable<Shoes> GetShoesByCategoryId(int categoryId);
+
+	}
 }

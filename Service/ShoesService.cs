@@ -1,16 +1,21 @@
 ﻿using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PRN211_ShoesStore.Service
 {
     public class ShoesService : IShoesService
     {
         IRepository<Shoes> _shoesRepository;
+        IRepository<Category> _categoryRepository;
+        
         //constructor
-        public ShoesService(IRepository<Shoes> shoesRepository)
+        public ShoesService(IRepository<Shoes> shoesRepository, IRepository<Category> categoryRepository)
         {
             _shoesRepository = shoesRepository;
+            _categoryRepository = categoryRepository;
         }
 
         // shoes == doi giay
@@ -41,5 +46,12 @@ namespace PRN211_ShoesStore.Service
             return false;
         }
 
-    }
+		//Get Shoes by category
+		public IEnumerable<Shoes> GetShoesByCategoryId(int categoryId)
+		{
+			List<Shoes> shoes = _shoesRepository.GetShoesByCategoryId(categoryId).ToList();
+            return shoes;
+
+		}
+	}
 }
