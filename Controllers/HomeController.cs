@@ -164,18 +164,7 @@ namespace PRN211_ShoesStore.Controllers
             return RedirectToAction("Login", "Home");
         }
 
-        [HttpGet]
-        public IActionResult AddToCart(int specificallyShoesId, decimal price)
-        {
-            /*var userId = HttpContext.Session.GetInt32("UserId");
-            CartItem cart = new CartItem();
-			cart.userId = (int)userId;
-            CartItemDetails cartItem = new CartItemDetails();
-            cartItem.CartItem = cart;
-            cartItem.Price = price;*/ 
-
-            return RedirectToAction("AddToCart", "Cart");
-        }
+        
 
         public IActionResult Privacy()
         {
