@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
 using System;
@@ -17,38 +18,40 @@ namespace PRN211_ShoesStore.Controllers
 
         public IActionResult Index()
         {
-            List<CartItem> res = _cartService.GetCartItemDetails().ToList();
+            List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
             return View(res);
         }
 
-        [HttpPost]
-        public IActionResult AddToCart(int UserId, int SpecificallyShoesId, int Quantity, decimal Price)
+        [HttpGet]
+        public IActionResult AddToCart(int specificallyShoesId, decimal price)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
             try
             {
-                _cartService.addToCartItem(UserId, SpecificallyShoesId, Quantity, Price);
+                
+
+                _cartService.addToCartItem((int)userId, specificallyShoesId, price);
             }
             catch (Exception ex)
             {
                 TempData["Errormsg"] = ex.Message;
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", userId);
         }
 
         [HttpPost]
-        public IActionResult IncreaseQuantity(int cartId, int SpecificallyShoesId, int Quantity, decimal Price)
+        public IActionResult Update(int cartItemId, int cartId, int quantity, int shoesId)
         {
-            try
+            if (quantity == 0)
             {
-                _cartService.addToCartItem(cartId, SpecificallyShoesId, Quantity, Price);
+                return RedirectToAction("Delete");
             }
-            catch (Exception ex)
-            {
-                TempData["Errormsg"] = ex.Message;
-            }
-
+             _cartService.UpdateCartItem(cartItemId,cartId, quantity, shoesId);
+            TempData["Errormsg"] = "Quantity update can not be large than shoes quantity.";
             return RedirectToAction("Index");
         }
+
+        
     }
 }

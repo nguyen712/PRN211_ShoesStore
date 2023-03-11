@@ -123,15 +123,18 @@ namespace PRN211_ShoesStore.Controllers
 				TempData["ErrorUsername"] = "Username is existed.";
 				flag = false;
 			}
-            
+
+			bool res = MailUtils.SendMail("nguyenbkse151446@fpt.edu.vn", email, "Mail Xac Nhan Email Da dang ky thanh cong", "Hello Mr/Mrs " + firstName);
+			if (res == false)
+			{
+				TempData["ErrorEmailFormat"] = "Email is not existed";
+                flag = false;
+			}
+
 			if (flag)
             {
 				User user = _userService.Register(firstName + " " + lastName, username, pwd, phone, email, address);
-                bool res = MailUtils.SendMail("nguyenbkse151446@fpt.edu.vn", email, "Mail Xac Nhan Email Da dang ky thanh cong", "Hello Mr/Mrs " + firstName);
-                if (res == false)
-                {
-                    TempData["ErrorEmailFormat"] = "Email is not existed";
-                }
+                
                 return View("Views/Home/Login.cshtml");
             }
             return View();
@@ -161,6 +164,18 @@ namespace PRN211_ShoesStore.Controllers
             return RedirectToAction("Login", "Home");
         }
 
+        [HttpGet]
+        public IActionResult AddToCart(int specificallyShoesId, decimal price)
+        {
+            /*var userId = HttpContext.Session.GetInt32("UserId");
+            CartItem cart = new CartItem();
+			cart.userId = (int)userId;
+            CartItemDetails cartItem = new CartItemDetails();
+            cartItem.CartItem = cart;
+            cartItem.Price = price;*/ 
+
+            return RedirectToAction("AddToCart", "Cart");
+        }
 
         public IActionResult Privacy()
         {

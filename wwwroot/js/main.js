@@ -199,6 +199,7 @@
 	/* Input incrementer*/
 	$(".numbers-row").append('<div class="inc button_inc">+</div><div class="dec button_inc">-</div>');
 	$(".button_inc").on("click", function () {
+		var $button1 = $(".btn_val");
 		var $button = $(this);
 		var oldValue = $button.parent().find("input").val();
 		if ($button.text() == "+") {
@@ -211,6 +212,7 @@
 				newVal = 0;
 			}
 		}
+		$button1.find("input").val(newVal);
 		$button.parent().find("input").val(newVal);
 	});
 	

@@ -10,8 +10,8 @@ using PRN211_ShoesStore.Models;
 namespace PRN211_ShoesStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230307225620_changeImageToString")]
-    partial class changeImageToString
+    [Migration("20230311002243_ShoesStoreEnityCart")]
+    partial class ShoesStoreEnityCart
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,60 @@ namespace PRN211_ShoesStore.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("CartItem");
+                });
+
+            modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CartItemDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShoesImg")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShoesName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("cartItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("shoesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("cartItemId");
+
+                    b.HasIndex("shoesId");
+
+                    b.ToTable("CartItemDetails");
+                });
 
             modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.Category", b =>
                 {
@@ -487,6 +541,30 @@ namespace PRN211_ShoesStore.Migrations
                     b.HasIndex("roleId");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CartItem", b =>
+                {
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("userId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CartItemDetails", b =>
+                {
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.CartItem", "CartItem")
+                        .WithMany()
+                        .HasForeignKey("cartItemId");
+
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.Shoes", "Shoes")
+                        .WithMany()
+                        .HasForeignKey("shoesId");
+
+                    b.Navigation("CartItem");
+
+                    b.Navigation("Shoes");
                 });
 
             modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CategoryShoes", b =>

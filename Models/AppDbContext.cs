@@ -48,7 +48,9 @@ namespace PRN211_ShoesStore.Models
             var strConn = config["ConnectionStrings:AppConnectString"];
             return strConn;
         }
-        public DbSet<CartItem> CartItems { get; set; }
+
+        public DbSet<CartItemDetails> cartItemDetails { get; set; }
+        public DbSet<CartItem> cartItems { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Role> roles { get; set; }
         public DbSet<Shoes> shoes { get; set; }

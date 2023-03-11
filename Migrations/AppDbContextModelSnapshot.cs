@@ -29,24 +29,48 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("CartItem");
+                });
+
+            modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CartItemDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("ShoesImg")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpecificallyShoesId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SpecificallyShoesnName")
+                    b.Property<string>("ShoesName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("cartItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("shoesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("cartItems");
+                    b.HasIndex("cartItemId");
+
+                    b.HasIndex("shoesId");
+
+                    b.ToTable("CartItemDetails");
                 });
 
             modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.Category", b =>
@@ -515,6 +539,30 @@ namespace PRN211_ShoesStore.Migrations
                     b.HasIndex("roleId");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CartItem", b =>
+                {
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("userId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CartItemDetails", b =>
+                {
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.CartItem", "CartItem")
+                        .WithMany()
+                        .HasForeignKey("cartItemId");
+
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.Shoes", "Shoes")
+                        .WithMany()
+                        .HasForeignKey("shoesId");
+
+                    b.Navigation("CartItem");
+
+                    b.Navigation("Shoes");
                 });
 
             modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CategoryShoes", b =>

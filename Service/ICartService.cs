@@ -8,17 +8,14 @@ namespace PRN211_ShoesStore.Service
     {
         IEnumerable<CartItem> GetCartItem();
 
-        //Get CartItem by id
         CartItem GetCartItemById(int CartItemId);
-        //Get CartItem by name
+
         IEnumerable<CartItem> GetCartItemByName(string CartItemname);
 
-        //Update [NumberInStock] when buying [quantity] CartItem (MinusNumberInStockWithQuantity)
-        // Ex: stock: 100                         quantity:2  --> stock: 88
-        bool UpdateCartItem(CartItem CartItem);
+        bool UpdateCartItem(int cartItemId, int cartId, int quantity, int shoesId);
 
-        public IEnumerable<CartItem> GetCartItemDetails();
+        public IEnumerable<CartItemDetails> GetCartItemDetails();
 
-        public void addToCartItem(int UserId, int specificallyShoesId, int quantity, decimal price);
+        public void addToCartItem(int UserId, int specificallyShoesId, decimal price);
     }
 }

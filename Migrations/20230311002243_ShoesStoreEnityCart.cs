@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PRN211_ShoesStore.Migrations
 {
-    public partial class ShoesStoreEnity : Migration
+    public partial class ShoesStoreEnityCart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,8 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,6 +31,7 @@ namespace PRN211_ShoesStore.Migrations
                     createBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     createDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     updateBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    status = table.Column<bool>(type: "bit", nullable: false),
                     updateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -47,6 +49,7 @@ namespace PRN211_ShoesStore.Migrations
                     createBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     createDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     updateBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    status = table.Column<bool>(type: "bit", nullable: false),
                     lastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -58,16 +61,17 @@ namespace PRN211_ShoesStore.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    roleId = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     roleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     roleDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     creatDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    updateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    updateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.roleId);
+                    table.PrimaryKey("PK_Role", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,7 +80,8 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    discount = table.Column<double>(type: "float", nullable: false)
+                    discount = table.Column<double>(type: "float", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,8 +95,11 @@ namespace PRN211_ShoesStore.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    price = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
                     shoesDetails = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     launchDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    status = table.Column<bool>(type: "bit", nullable: false),
                     quantity = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -105,7 +113,8 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    sizeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    sizeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,23 +128,25 @@ namespace PRN211_ShoesStore.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    roleId = table.Column<int>(type: "int", nullable: false),
                     username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     createDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     updateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: true)
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.id);
                     table.ForeignKey(
-                        name: "FK_User_Role_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_User_Role_roleId",
+                        column: x => x.roleId,
                         principalTable: "Role",
-                        principalColumn: "roleId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -144,8 +155,9 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    categoryId = table.Column<int>(type: "int", nullable: true),
-                    shoesId = table.Column<int>(type: "int", nullable: true)
+                    categoryId = table.Column<int>(type: "int", nullable: false),
+                    shoesId = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,13 +167,13 @@ namespace PRN211_ShoesStore.Migrations
                         column: x => x.categoryId,
                         principalTable: "Category",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CategoryShoes_Shoes_shoesId",
                         column: x => x.shoesId,
                         principalTable: "Shoes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,23 +182,25 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ShoesId = table.Column<int>(type: "int", nullable: true)
+                    shoesId = table.Column<int>(type: "int", nullable: false),
+                    colorId = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoesColor", x => x.id);
                     table.ForeignKey(
-                        name: "FK_ShoesColor_Color_ShoesId",
-                        column: x => x.ShoesId,
+                        name: "FK_ShoesColor_Color_colorId",
+                        column: x => x.colorId,
                         principalTable: "Color",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShoesColor_Shoes_ShoesId",
-                        column: x => x.ShoesId,
+                        name: "FK_ShoesColor_Shoes_shoesId",
+                        column: x => x.shoesId,
                         principalTable: "Shoes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,24 +209,25 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageId = table.Column<int>(type: "int", nullable: true),
-                    ShoesId = table.Column<int>(type: "int", nullable: true)
+                    imageId = table.Column<int>(type: "int", nullable: false),
+                    shoesId = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoesImage", x => x.id);
                     table.ForeignKey(
-                        name: "FK_ShoesImage_Image_ImageId",
-                        column: x => x.ImageId,
+                        name: "FK_ShoesImage_Image_imageId",
+                        column: x => x.imageId,
                         principalTable: "Image",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShoesImage_Shoes_ShoesId",
-                        column: x => x.ShoesId,
+                        name: "FK_ShoesImage_Shoes_shoesId",
+                        column: x => x.shoesId,
                         principalTable: "Shoes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,41 +241,36 @@ namespace PRN211_ShoesStore.Migrations
                     quantity = table.Column<long>(type: "bigint", nullable: false),
                     createDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     updateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ShoesId = table.Column<int>(type: "int", nullable: true)
+                    shoesId = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoesSpecifically", x => x.id);
                     table.ForeignKey(
-                        name: "FK_ShoesSpecifically_Shoes_ShoesId",
-                        column: x => x.ShoesId,
+                        name: "FK_ShoesSpecifically_Shoes_shoesId",
+                        column: x => x.shoesId,
                         principalTable: "Shoes",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SpecificallyShoesSize",
+                name: "CartItem",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    specificallyShoesId = table.Column<int>(type: "int", nullable: true),
-                    sizeId = table.Column<int>(type: "int", nullable: true)
+                    userId = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpecificallyShoesSize", x => x.id);
+                    table.PrimaryKey("PK_CartItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SpecificallyShoesSize_Size_sizeId",
-                        column: x => x.sizeId,
-                        principalTable: "Size",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SpecificallyShoesSize_SpecificallyShoesSize_specificallyShoesId",
-                        column: x => x.specificallyShoesId,
-                        principalTable: "SpecificallyShoesSize",
+                        name: "FK_CartItem_User_userId",
+                        column: x => x.userId,
+                        principalTable: "User",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -271,19 +281,20 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     orderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
+                    userId = table.Column<int>(type: "int", nullable: false),
                     price = table.Column<decimal>(type: "Money", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false),
                     createDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.orderId);
                     table.ForeignKey(
-                        name: "FK_Order_User_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Order_User_userId",
+                        column: x => x.userId,
                         principalTable: "User",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -292,8 +303,9 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    specificallyShoesId = table.Column<int>(type: "int", nullable: true),
-                    colorId = table.Column<int>(type: "int", nullable: true)
+                    specificallyShoesId = table.Column<int>(type: "int", nullable: false),
+                    colorId = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,13 +315,13 @@ namespace PRN211_ShoesStore.Migrations
                         column: x => x.colorId,
                         principalTable: "Color",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ColorSpecificallyShoes_ShoesSpecifically_specificallyShoesId",
                         column: x => x.specificallyShoesId,
                         principalTable: "ShoesSpecifically",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -318,8 +330,8 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    specificallyShoes = table.Column<int>(type: "int", nullable: true),
-                    saleId = table.Column<int>(type: "int", nullable: true)
+                    specificallyShoesId = table.Column<int>(type: "int", nullable: false),
+                    saleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -329,11 +341,67 @@ namespace PRN211_ShoesStore.Migrations
                         column: x => x.saleId,
                         principalTable: "Sale",
                         principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SpecificallyShoesSale   _ShoesSpecifically_specificallyShoesId",
+                        column: x => x.specificallyShoesId,
+                        principalTable: "ShoesSpecifically",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SpecificallyShoesSize",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    specificallyShoesId = table.Column<int>(type: "int", nullable: false),
+                    sizeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpecificallyShoesSize", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_SpecificallyShoesSize_ShoesSpecifically_specificallyShoesId",
+                        column: x => x.specificallyShoesId,
+                        principalTable: "ShoesSpecifically",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SpecificallyShoesSize_Size_sizeId",
+                        column: x => x.sizeId,
+                        principalTable: "Size",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CartItemDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    cartItemId = table.Column<int>(type: "int", nullable: true),
+                    shoesId = table.Column<int>(type: "int", nullable: true),
+                    ShoesName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShoesImg = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItemDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItemDetails_CartItem_cartItemId",
+                        column: x => x.cartItemId,
+                        principalTable: "CartItem",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SpecificallyShoesSale   _ShoesSpecifically_specificallyShoes",
-                        column: x => x.specificallyShoes,
-                        principalTable: "ShoesSpecifically",
+                        name: "FK_CartItemDetails_Shoes_shoesId",
+                        column: x => x.shoesId,
+                        principalTable: "Shoes",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -347,25 +415,40 @@ namespace PRN211_ShoesStore.Migrations
                     quantity = table.Column<long>(type: "bigint", nullable: false),
                     price = table.Column<double>(type: "float", nullable: false),
                     status = table.Column<bool>(type: "bit", nullable: false),
-                    specificallyShoesId = table.Column<int>(type: "int", nullable: true),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    specificallyShoesId = table.Column<int>(type: "int", nullable: false),
+                    orderId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderDetail", x => x.id);
                     table.ForeignKey(
-                        name: "FK_OrderDetail_Order_OrderId",
-                        column: x => x.OrderId,
+                        name: "FK_OrderDetail_Order_orderId",
+                        column: x => x.orderId,
                         principalTable: "Order",
                         principalColumn: "orderId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderDetail_ShoesSpecifically_specificallyShoesId",
                         column: x => x.specificallyShoesId,
                         principalTable: "ShoesSpecifically",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_userId",
+                table: "CartItem",
+                column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItemDetails_cartItemId",
+                table: "CartItemDetails",
+                column: "cartItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItemDetails_shoesId",
+                table: "CartItemDetails",
+                column: "shoesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryShoes_categoryId",
@@ -388,14 +471,14 @@ namespace PRN211_ShoesStore.Migrations
                 column: "specificallyShoesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_UserId",
+                name: "IX_Order_userId",
                 table: "Order",
-                column: "UserId");
+                column: "userId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_OrderId",
+                name: "IX_OrderDetail_orderId",
                 table: "OrderDetail",
-                column: "OrderId");
+                column: "orderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetail_specificallyShoesId",
@@ -403,24 +486,29 @@ namespace PRN211_ShoesStore.Migrations
                 column: "specificallyShoesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoesColor_ShoesId",
+                name: "IX_ShoesColor_colorId",
                 table: "ShoesColor",
-                column: "ShoesId");
+                column: "colorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoesImage_ImageId",
+                name: "IX_ShoesColor_shoesId",
+                table: "ShoesColor",
+                column: "shoesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoesImage_imageId",
                 table: "ShoesImage",
-                column: "ImageId");
+                column: "imageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoesImage_ShoesId",
+                name: "IX_ShoesImage_shoesId",
                 table: "ShoesImage",
-                column: "ShoesId");
+                column: "shoesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoesSpecifically_ShoesId",
+                name: "IX_ShoesSpecifically_shoesId",
                 table: "ShoesSpecifically",
-                column: "ShoesId");
+                column: "shoesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpecificallyShoesSale   _saleId",
@@ -428,9 +516,9 @@ namespace PRN211_ShoesStore.Migrations
                 column: "saleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SpecificallyShoesSale   _specificallyShoes",
+                name: "IX_SpecificallyShoesSale   _specificallyShoesId",
                 table: "SpecificallyShoesSale   ",
-                column: "specificallyShoes");
+                column: "specificallyShoesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpecificallyShoesSize_sizeId",
@@ -443,13 +531,16 @@ namespace PRN211_ShoesStore.Migrations
                 column: "specificallyShoesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_RoleId",
+                name: "IX_User_roleId",
                 table: "User",
-                column: "RoleId");
+                column: "roleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CartItemDetails");
+
             migrationBuilder.DropTable(
                 name: "CategoryShoes");
 
@@ -470,6 +561,9 @@ namespace PRN211_ShoesStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "SpecificallyShoesSize");
+
+            migrationBuilder.DropTable(
+                name: "CartItem");
 
             migrationBuilder.DropTable(
                 name: "Category");
