@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PRN211_ShoesStore.Models.Entity;
 using System.Drawing;
@@ -9,7 +11,7 @@ using Size = PRN211_ShoesStore.Models.Entity.Size;
 namespace PRN211_ShoesStore.Models
 {
     public class AppDbContext : DbContext
-    {
+	{
         public AppDbContext()
         {
 

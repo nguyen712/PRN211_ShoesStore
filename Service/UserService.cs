@@ -56,8 +56,13 @@ namespace PRN211_ShoesStore.Service
             return user;
         }
 
+		public User GetUserById(int userId)
+		{
+			return _userRepository.GetById(userId);
+		}
 
-        public User login(string Username, string password)
+
+		public User login(string Username, string password)
         {
             var user = _userRepository.GetAll().Include(r => r.role).ToList().Where(r => r.username.Equals(Username) && r.password.Equals(password)).FirstOrDefault();
             return user;

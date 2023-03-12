@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
@@ -11,9 +13,10 @@ using System.Diagnostics;
 using System.Linq;
 namespace PRN211_ShoesStore.Controllers
 {
+    
     public class HomeController : Controller
     {
-        private UserRepository userRepository;
+        private IRepository<User> _userRepository;
 
         private UserService _userService;
 
@@ -26,14 +29,14 @@ namespace PRN211_ShoesStore.Controllers
 		private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger,
-            UserRepository _userRepository, 
+            IRepository<User> userRepository, 
             RoleRepository _roleRepository, 
             UserService userService, 
             IShoesService shoesService,
 			ICategoryService categoryService)
         {
             _logger = logger;
-            userRepository = _userRepository;
+            _userRepository = userRepository;
             roleRepository = _roleRepository;
             _userService = userService;
             _shoesService = shoesService;
@@ -41,22 +44,24 @@ namespace PRN211_ShoesStore.Controllers
             
 		}
 
-        public IActionResult Index()
+        
+		public IActionResult Index()
         {
 			//TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());
 			//TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
              
             
-			var userId = HttpContext.Session.GetInt32("UserId");
-			if (userId != null)
-			{
-				// Do something with the userId value
-				var shoesList = _shoesService.GetShoes().ToList();
-				return View(shoesList);
-			}
+			
+			
+		    // Do something with the userId value
+			var shoesList = _shoesService.GetShoes().ToList();
+			return View(shoesList);
+			
 
-            return View("Views/Home/Register.cshtml");
+            
         }
+
+        public IActionResult AccessDenied() { return View(); }
 
         public IActionResult Login()
         {
@@ -144,12 +149,21 @@ namespace PRN211_ShoesStore.Controllers
         public IActionResult Login(string username, string password)
 		{
             var user = _userService.login(username, password);
+            if (user == null)
+            {
+				TempData["ErrorLogin"] = "Username or password is invalid.";
+				return RedirectToAction("Login", "Home");
+			}
             if (user.id > 0)
             {
                 if (user.role.roleName.Equals("User"))
                 {
                     HttpContext.Session.SetInt32("UserId", user.id);
-                    return RedirectToAction("Index", "Home");
+                    HttpContext.Session.SetString("Role", user.role.roleName);
+					HttpContext.Session.SetString("Status", user.status.ToString());
+
+
+					return RedirectToAction("Index", "Home");
                 }else if (user.role.roleName.Equals("Admin"))
                 {
                     HttpContext.Session.SetInt32("UserId", user.id);
