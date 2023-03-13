@@ -10,8 +10,8 @@ using PRN211_ShoesStore.Models;
 namespace PRN211_ShoesStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230311002243_ShoesStoreEnityCart")]
-    partial class ShoesStoreEnityCart
+    [Migration("20230313160652_ShoesStoreEnityCartV1")]
+    partial class ShoesStoreEnityCartV1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("userId")
+                    b.Property<int>("userId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -60,17 +60,20 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<string>("ShoesName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("cartItemId")
+                    b.Property<double>("ShoesSize")
+                        .HasColumnType("float");
+
+                    b.Property<int>("cartItemId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("shoesId")
+                    b.Property<int>("specificallyShoesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("cartItemId");
 
-                    b.HasIndex("shoesId");
+                    b.HasIndex("specificallyShoesId");
 
                     b.ToTable("CartItemDetails");
                 });
@@ -547,7 +550,9 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.User", "User")
                         .WithMany()
-                        .HasForeignKey("userId");
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -556,15 +561,19 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.CartItem", "CartItem")
                         .WithMany()
-                        .HasForeignKey("cartItemId");
+                        .HasForeignKey("cartItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("PRN211_ShoesStore.Models.Entity.Shoes", "Shoes")
+                    b.HasOne("PRN211_ShoesStore.Models.Entity.SpecificallyShoes", "SpecificallyShoes")
                         .WithMany()
-                        .HasForeignKey("shoesId");
+                        .HasForeignKey("specificallyShoesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CartItem");
 
-                    b.Navigation("Shoes");
+                    b.Navigation("SpecificallyShoes");
                 });
 
             modelBuilder.Entity("PRN211_ShoesStore.Models.Entity.CategoryShoes", b =>

@@ -62,7 +62,7 @@ namespace PRN211_ShoesStore
 	.AddEntityFrameworkStores<ApplicationDbContext>()
 	.AddDefaultTokenProviders();
 			services.AddDbContext<ApplicationDbContext>(options =>
-			options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+			options.UseSqlServer(Configuration.GetConnectionString("AppConnectString")));
 
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 			services.AddScoped<IShoesService, ShoesService>();

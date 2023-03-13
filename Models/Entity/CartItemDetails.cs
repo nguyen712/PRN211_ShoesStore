@@ -8,11 +8,11 @@ namespace PRN211_ShoesStore.Models.Entity
 	{
 		
 
-		public CartItemDetails(int id, CartItem cartItem, Shoes shoes, string shoesName, string image, int quantity, decimal price)
+		public CartItemDetails(int id, CartItem cartItem, SpecificallyShoes specificallyShoes, string shoesName, string image, int quantity, decimal price)
 		{
 			Id = id;
 			CartItem = cartItem;
-			Shoes = shoes;
+            SpecificallyShoes = specificallyShoes;
 			ShoesName = shoesName;
 			ShoesImg = image;
 			Quantity = quantity;
@@ -29,14 +29,15 @@ namespace PRN211_ShoesStore.Models.Entity
 
 		public int cartItemId { get; set; }
 
-		public int shoesId { get; set; }
+		public int specificallyShoesId { get; set; }
 
 		[ForeignKey("cartItemId")]
 		public CartItem CartItem {get; set; }
 
-		[ForeignKey("shoesId")]
-		public Shoes Shoes { get; set; }
+		[ForeignKey("specificallyShoesId")]
+		public SpecificallyShoes SpecificallyShoes { get; set; }
 
+		public double ShoesSize { get; set; }
 		public string ShoesName { get; set; }
 		public string ShoesImg { get; set; }
 		public int Quantity { get; set; }

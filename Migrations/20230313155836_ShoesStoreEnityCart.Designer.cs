@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PRN211_ShoesStore.Models;
 
 namespace PRN211_ShoesStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230313155836_ShoesStoreEnityCart")]
+    partial class ShoesStoreEnityCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,13 +60,10 @@ namespace PRN211_ShoesStore.Migrations
                     b.Property<string>("ShoesName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("ShoesSize")
-                        .HasColumnType("float");
-
-                    b.Property<int>("cartItemId")
+                    b.Property<int?>("cartItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("specificallyShoesId")
+                    b.Property<int?>("specificallyShoesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -559,15 +558,11 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     b.HasOne("PRN211_ShoesStore.Models.Entity.CartItem", "CartItem")
                         .WithMany()
-                        .HasForeignKey("cartItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("cartItemId");
 
                     b.HasOne("PRN211_ShoesStore.Models.Entity.SpecificallyShoes", "SpecificallyShoes")
                         .WithMany()
-                        .HasForeignKey("specificallyShoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("specificallyShoesId");
 
                     b.Navigation("CartItem");
 

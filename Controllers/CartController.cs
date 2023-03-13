@@ -28,7 +28,7 @@ namespace PRN211_ShoesStore.Controllers
             var userId = HttpContext.Session.GetInt32("UserId");
             try
             {
-                _cartService.addToCartItem((int)userId, specificallyShoesId, price);
+                _cartService.addToCartItem((int)userId, specificallyShoesId, price, 9.5);
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace PRN211_ShoesStore.Controllers
             {
                 return RedirectToAction("Delete");
             }
-            bool res = _cartService.UpdateCartItem(cartItemId,cartId, quantity, shoesId);
+            bool res = _cartService.UpdateCartItem(cartItemId, cartId, quantity, shoesId);
             if (res == false)
             {
                 TempData["Errormsg"] = "Quantity update can not be large than shoes quantity.";
@@ -56,9 +56,9 @@ namespace PRN211_ShoesStore.Controllers
         [HttpGet]
         public IActionResult Delete(int cartItemId, int cartId)
         {
-            _cartService.DeleteCartItem(cartItemId,cartId);
+            _cartService.DeleteCartItem(cartItemId, cartId);
             return RedirectToAction("Index");
         }
-        
+
     }
 }
