@@ -17,6 +17,6 @@ namespace PRN211_ShoesStore.Repository
 
         //shoes
         IEnumerable<Shoes> GetShoesByCategoryId(int categoryId);
-
-	}
+        bool Delete(T entity);
+    }
 }

@@ -160,5 +160,31 @@ namespace PRN211_ShoesStore.Service
 				_cartItemDetailsRepository.Insert(cartItemDetails);
 			}
 		}
+
+        public void DeleteCartItem(int cartItemId, int cartId)
+        {
+            CartItemDetails cartItem = _cartItemDetailsRepository.GetData().ToList().Where(i => i.Id == cartItemId).FirstOrDefault();
+            CartItem cart = _cartItemRepository.GetById(cartId);
+            if (cartItem != null)
+            {
+               _cartItemDetailsRepository.Delete(cartItem);
+            }
+            
+            List<CartItemDetails> list = _cartItemDetailsRepository.GetData().Where(i => i.cartItemId == cartId).ToList();
+            decimal price = 0;
+            if (list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    price+= item.Price;
+                }
+                cart.Price = price;
+                _cartItemRepository.Update(cart);
+            }
+            if (list.Count() == 0)
+            {
+                _cartItemRepository.Delete(cart);
+            }
+        }
     }
 }

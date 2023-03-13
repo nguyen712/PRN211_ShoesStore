@@ -8,9 +8,10 @@
 <main class="bg_gray">
     
         
-            <form action="Update" method="post">
+            
                 @foreach (var item in Model)
             {
+        <form action="Update" method="post">
         <div class="container margin_30">
             <table class="table table-striped cart-list">
                 <thead>
@@ -59,7 +60,7 @@
                         <strong>$@item.Price</strong>
                     </td>
                     <td class="options">
-                        <a href="Cart/Delete?cartItemId=@item.Id&cartId=@item.CartItem.Id"><i class="ti-trash"></i></a>
+                                <a href="https://localhost:44326/Cart/Delete?cartItemId=@item.Id&cartId=@item.CartItem.Id"><i class="ti-trash"></i></a>
                     </td>
                 </tr>
                 @*<tr>
@@ -120,15 +121,14 @@
                             <input type="hidden" name="quantity" value="@item.Quantity" />
                         </div>*@
                         <input type="hidden" name="cartItemId" value="@item.Id"/>
-                         
                          <input type="hidden" name="cartId" value="@item.CartItem.Id" />
                         <input type="hidden" name="shoesId" value="@item.Shoes.id" />
                         <button type="submit" class="btn_1 gray">Update Cart</button>
             </div>
-             <script>
+            @* <script>
                         var quantity = document.getElementsByName('quantity');
                                console.log(quantity.values);
-            </script>
+            </script>*@
             
             <div class="col-sm-8">
                 <div class="apply-coupon">
@@ -164,14 +164,15 @@
             </div>
         </div>
     </div>
+        </form>
         }
-             </form>
-
     <!-- /box_cart -->
-
 </main>
 <!--/main-->
-
+@if (TempData["Errormsg"] != null)
+{
+    <h1>@TempData["Errormsg"]</h1>
+}
 @*<main>
     <p>
         <a asp-action="Create">Create New</a>
