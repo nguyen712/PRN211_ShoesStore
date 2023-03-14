@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
 
 namespace PRN211_ShoesStore.Controllers
 {
+    [MyAuthenFIlter("User")]
     public class ShoesController : Controller
     {
         private readonly AppDbContext _context = new AppDbContext();

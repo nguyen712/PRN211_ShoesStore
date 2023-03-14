@@ -93,9 +93,14 @@ namespace PRN211_ShoesStore.Service
             CartItem existCart = _cartItemRepository.GetData().ToList().Where(c => c.userId == UserId).FirstOrDefault();
             List<CartItemDetails> productsCartIsExisted = _cartItemDetailsRepository.GetData().ToList().Where(c => c.cartItemId == existCart.Id).ToList();
             Shoes shoes = _shoesRepository.GetData().Where(s => s.id == specificallyShoes.shoesId).FirstOrDefault();
-            Size size = _sizesRepository.GetData().Where(s => s.sizeNumber.Equals(sizeId.ToString())).FirstOrDefault();
-            SpecificallyShoesSize specificallyShoesSize = _sizeRepository.GetData().Where(size => size.shoes.id == specificallyShoes.id && size.size.id == size.id).FirstOrDefault();
-            Size sizeOfShoes = _sizesRepository.GetData().Where(s => s.id == specificallyShoesSize.sizeId).FirstOrDefault();
+            Size sizes = _sizesRepository.GetData().Where(s => s.sizeNumber.Equals(sizeId.ToString())).FirstOrDefault();
+            List<SpecificallyShoesSize> specificallyShoesSize = _sizeRepository.GetData().Where(size => size.specificallyShoesId == specificallyShoes.id && size.sizeId == sizes.id).ToList();
+            Size sizeOfShoes = new Size();
+            foreach (var i in specificallyShoesSize)
+            {
+                sizeOfShoes = _sizesRepository.GetData().Where(s => s.id == i.sizeId).FirstOrDefault();
+            }
+            
             if (existCart != null)
             {
 

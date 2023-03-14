@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace PRN211_ShoesStore.Controllers
 {
+    [MyAuthenFIlter("User")]
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
@@ -16,12 +18,15 @@ namespace PRN211_ShoesStore.Controllers
             _cartService = cartService;
         }
 
+        
         public IActionResult Index()
         {
             List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
+            TempData["Totalprice"] = res.First().CartItem.Price;
             return View(res);
         }
 
+        
         [HttpGet]
         public IActionResult AddToCart(int specificallyShoesId, decimal price)
         {

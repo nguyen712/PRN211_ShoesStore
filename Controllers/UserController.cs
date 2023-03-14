@@ -23,7 +23,7 @@ namespace PRN211_ShoesStore.Controllers
             return View();
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Search(string name)
         {
             return RedirectToAction("ShowShoes  ", _userService.Search(name));
@@ -39,6 +39,6 @@ namespace PRN211_ShoesStore.Controllers
         public IActionResult ShowShoes()
         {
             return View(_userService.ShowShoes());
-        }
+        }*/
     }
 }
