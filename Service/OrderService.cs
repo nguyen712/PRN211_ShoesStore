@@ -99,11 +99,6 @@ namespace PRN211_ShoesStore.Service
             return outItem;
         }
 
-        public void checkOut()
-        {
-
-        }
-
 
         /*public IEnumerable<CartItemDetails> GetCartItemDetails()
         {

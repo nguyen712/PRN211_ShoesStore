@@ -26,14 +26,12 @@ namespace PRN211_ShoesStore.Controllers
 			if(check.Count() == 0)
 			{
 				Order newOrder = _orderService.CreateOrder((int)userId, 0);
-				List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
+				//List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
 				foreach (var a in check)
 				{
-					//sai kieu du lieu vs sai cau truc ban
-					//_orderService.CreateOrderDetail(a.Quantity, a.Price, a.shoesId, newOrder.orderId);
 					_orderService.CreateOrderDetail(a.Quantity, (double)a.Price, a.specificallyShoesId, newOrder.orderId);
 				}
-				return View(res);
+				return View();
 			}
 			TempData["Errormsg"] = "Some Item in your cart are out of quatity";
 			return RedirectToAction("Index", "Cart", new { area = "" });
