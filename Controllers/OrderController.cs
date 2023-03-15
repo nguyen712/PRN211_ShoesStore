@@ -18,7 +18,7 @@ namespace PRN211_ShoesStore.Controllers
 			_cartService = cartService;
 		}
 
-		public IActionResult Index()
+		public IActionResult OrderIndex()
 		{
 			var userId = HttpContext.Session.GetInt32("UserId");
 

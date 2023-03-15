@@ -86,8 +86,8 @@ namespace PRN211_ShoesStore.Service
                 {
                     if (outItem.Count() == 0)
                     {
-						Sshoe.quantity = Sshoe.quantity - x.Quantity;
-						_specificallyShoes.Update(Sshoe);
+						//Sshoe.quantity = Sshoe.quantity - x.Quantity;
+						//_specificallyShoes.Update(Sshoe);
 					}
 				}
 			}
