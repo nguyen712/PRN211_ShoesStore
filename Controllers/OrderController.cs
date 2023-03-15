@@ -18,7 +18,7 @@ namespace PRN211_ShoesStore.Controllers
 			_cartService = cartService;
 		}
 
-		public IActionResult OrderIndex()
+		public IActionResult CheckOut()
 		{
 			var userId = HttpContext.Session.GetInt32("UserId");
 
@@ -39,7 +39,7 @@ namespace PRN211_ShoesStore.Controllers
 			return RedirectToAction("Index", "Cart", new { area = "" });
 		}
 
-		public IActionResult checkout()
+		public IActionResult OrderIndex()
 		{
 			return View();
 		}

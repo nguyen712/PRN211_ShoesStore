@@ -18,6 +18,7 @@ namespace PRN211_ShoesStore.Service
 {
     public class OrderService : IOrderService
     {
+        private UserRepository _userRepository;
         IRepository<CartItem> _cartItemRepository;
         IRepository<SpecificallyShoes> _specificallyShoes;
         IRepository<CartItemDetails> _cartItemDetailsRepository;
@@ -31,7 +32,8 @@ namespace PRN211_ShoesStore.Service
                             IRepository<CartItemDetails> cartItemDetailsRepository,
                             IRepository<Order> OrderRepository,
                             IRepository<OrderDetail> OrderDetailRepository,
-			                IRepository<Shoes> ShoesRepository
+			                IRepository<Shoes> ShoesRepository,
+                            UserRepository userRepository
                             )
         {
             _cartItemRepository = cartItemRepository;
@@ -40,8 +42,10 @@ namespace PRN211_ShoesStore.Service
             _OrderRepository = OrderRepository;
             _OrderDetailRepository = OrderDetailRepository;
             _ShoesRepository = ShoesRepository;
+            _userRepository = userRepository;
 
-		}
+
+        }
 
         public Order CreateOrder(int userID, decimal price)
         {
@@ -62,7 +66,7 @@ namespace PRN211_ShoesStore.Service
             orderDetail.price = price;
             orderDetail.orderId = orderId;
             orderDetail.status = true;
-            //sai sai o day
+            
 			orderDetail.specificallyShoesId= specificallyShoesId;
 			return _OrderDetailRepository.Insert(orderDetail);
 		}
@@ -73,11 +77,10 @@ namespace PRN211_ShoesStore.Service
 			IEnumerable<CartItem> item = _cartItemRepository.GetData(s => s.userId == UserID);
             List<CartItemDetails> itemDetails = (List<CartItemDetails>)_cartItemDetailsRepository.GetData(s => s.cartItemId == item.FirstOrDefault().Id);
             List<CartItemDetails> outItem = new List<CartItemDetails>();
-
 			foreach (var x in itemDetails)
             {
 				SpecificallyShoes Sshoe = _specificallyShoes.GetById(x.specificallyShoesId);
-
+                Shoes shoes = _ShoesRepository.GetById(Sshoe.shoesId);
 				if (Sshoe.quantity - x.Quantity < 0)
                 {
                     outItem.Add(x);
@@ -86,13 +89,21 @@ namespace PRN211_ShoesStore.Service
                 {
                     if (outItem.Count() == 0)
                     {
-						//Sshoe.quantity = Sshoe.quantity - x.Quantity;
-						//_specificallyShoes.Update(Sshoe);
+                        Sshoe.quantity = Sshoe.quantity - x.Quantity;
+                        shoes.quantity = Sshoe.quantity;
+						_specificallyShoes.Update(Sshoe);
+                        _ShoesRepository.Update(shoes);
 					}
 				}
 			}
             return outItem;
         }
+
+        public void checkOut()
+        {
+
+        }
+
 
         /*public IEnumerable<CartItemDetails> GetCartItemDetails()
         {
