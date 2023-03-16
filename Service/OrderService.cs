@@ -18,7 +18,7 @@ namespace PRN211_ShoesStore.Service
 {
     public class OrderService : IOrderService
     {
-        private UserRepository _userRepository;
+        //private UserRepository _userRepository;
         IRepository<CartItem> _cartItemRepository;
         IRepository<SpecificallyShoes> _specificallyShoes;
         IRepository<CartItemDetails> _cartItemDetailsRepository;
@@ -32,8 +32,8 @@ namespace PRN211_ShoesStore.Service
                             IRepository<CartItemDetails> cartItemDetailsRepository,
                             IRepository<Order> OrderRepository,
                             IRepository<OrderDetail> OrderDetailRepository,
-			                IRepository<Shoes> ShoesRepository,
-                            UserRepository userRepository
+			                IRepository<Shoes> ShoesRepository
+                            //UserRepository userRepository
                             )
         {
             _cartItemRepository = cartItemRepository;
@@ -42,7 +42,7 @@ namespace PRN211_ShoesStore.Service
             _OrderRepository = OrderRepository;
             _OrderDetailRepository = OrderDetailRepository;
             _ShoesRepository = ShoesRepository;
-            _userRepository = userRepository;
+            //_userRepository = userRepository;
 
 
         }
@@ -93,11 +93,15 @@ namespace PRN211_ShoesStore.Service
                         shoes.quantity = Sshoe.quantity;
 						_specificallyShoes.Update(Sshoe);
                         _ShoesRepository.Update(shoes);
-					}
+                        _cartItemDetailsRepository.Delete(x);
+
+                    }
 				}
 			}
             return outItem;
         }
+
+        
 
 
         /*public IEnumerable<CartItemDetails> GetCartItemDetails()
