@@ -47,7 +47,7 @@ namespace PRN211_ShoesStore.Service
 
         }
 
-        public void checkOut(int? userId, int cartItemId, decimal totalPrice)
+        public void CheckOut(int? userId, int cartItemId, decimal totalPrice)
         {
             if (totalPrice < 0)
             {
@@ -88,12 +88,12 @@ namespace PRN211_ShoesStore.Service
                     orderDetail.status = 0;
                     _OrderDetailRepository.Insert(orderDetail);
                 }
-                foreach (var cartItem in cartItemDetails)
+                /*foreach (var cartItem in cartItemDetails)
                 {
                     SpecificallyShoes SpecShoes = _specificallyShoes.GetById(cartItem.specificallyShoesId);
                     SpecShoes.quantity -= cartItem.Quantity;
                     _specificallyShoes.Update(SpecShoes);
-                }
+                }*/
 
                 foreach (var cartItem in cartItemDetails)
                 {
@@ -107,6 +107,19 @@ namespace PRN211_ShoesStore.Service
                 throw new Exception("");
             }
 
+        }
+
+        public List<OrderDetail> ViewOrder(int? userId)
+        {
+            List<OrderDetail> orderDetails = _OrderDetailRepository.GetData(o => o.order.user.id == userId.Value && o.status == 1).ToList();
+            //List<OrderDetail> ordersOut = null;
+            
+            if (orderDetails.Count > 0)
+            {
+                return orderDetails;
+            }
+
+            return null;
         }
 
         /*public Order CreateOrder(int userID, decimal price)
