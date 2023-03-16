@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PRN211_ShoesStore.Models.Entity.OrderDetail>
+
+@{
+    ViewData["Title"] = "ViewOrder";
+}
+
+<h1>ViewOrder</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shoes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.order)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.specificallyShoesId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.orderId)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
