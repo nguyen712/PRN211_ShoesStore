@@ -1,4 +1,4 @@
-@model IEnumerable<PRN211_ShoesStore.Models.Entity.CartItemDetails>
+﻿@model IEnumerable<PRN211_ShoesStore.Models.Entity.CartItemDetails>
 
 @{
     ViewData["Title"] = "Index Page";
@@ -99,7 +99,7 @@
                         @if (TempData["Totalprice"] != null)
                         {
                         <li>
-                                <span>Total</span> $@TempData["Totalprice"]
+                                <span>Total</span> $@TempData["Totalprice"] VNĐ
                         </li>
                         }
                         @*<li>
