@@ -47,7 +47,69 @@ namespace PRN211_ShoesStore.Service
 
         }
 
-        public Order CreateOrder(int userID, decimal price)
+        public void checkOut(int? userId, int cartItemId, decimal totalPrice)
+        {
+            if (totalPrice < 0)
+            {
+                throw new Exception("You can not checkout because cart is empty.");
+            }
+
+            List<CartItemDetails> cartItemDetails = _cartItemDetailsRepository.GetData(cd => cd.CartItem.Id == cartItemId).ToList();
+            foreach (var cartItem in cartItemDetails)
+            {
+                SpecificallyShoes SpecShoes =  _specificallyShoes.GetById(cartItem.specificallyShoesId);
+                if (cartItem.Quantity > SpecShoes.quantity)
+                {
+                    throw new Exception("Your shoes quantity is larger than quantity's shoes available.");
+                }
+            }
+            Order order = new Order();
+            order.userId = userId.Value;
+            order.price = totalPrice;
+            order.status = true;
+            order.createDate= DateTime.Now;
+            bool res = _OrderRepository.Insert(order);
+            if (res)
+            {
+                order = _OrderRepository.GetData().Last();
+                
+                foreach (var cartItem in cartItemDetails)
+                {
+                    SpecificallyShoes SpecShoes = _specificallyShoes.GetById(cartItem.specificallyShoesId);
+                    if (cartItem.Quantity > SpecShoes.quantity)
+                    {
+                        throw new Exception("Your shoes quantity is larger than quantity's shoes available.");
+                    }
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.price = (double) cartItem.Price;
+                    orderDetail.quantity = cartItem.Quantity;
+                    orderDetail.orderId = order.orderId;
+                    orderDetail.specificallyShoesId = cartItem.specificallyShoesId;
+                    orderDetail.status = true;
+                    _OrderDetailRepository.Insert(orderDetail);
+                }
+                foreach (var cartItem in cartItemDetails)
+                {
+                    SpecificallyShoes SpecShoes = _specificallyShoes.GetById(cartItem.specificallyShoesId);
+                    SpecShoes.quantity -= cartItem.Quantity;
+                    _specificallyShoes.Update(SpecShoes);
+                }
+
+                foreach (var cartItem in cartItemDetails)
+                {
+                    _cartItemDetailsRepository.Delete(cartItem);
+                }
+                
+                _cartItemRepository.Delete(_cartItemRepository.GetById(cartItemId));
+            }
+            else
+            {
+                throw new Exception("");
+            }
+
+        }
+
+        /*public Order CreateOrder(int userID, decimal price)
         {
             Order order = new Order();
             order.userId = userID;
@@ -106,12 +168,12 @@ namespace PRN211_ShoesStore.Service
                 _cartItemRepository.Delete(item.FirstOrDefault());
             }
             return outItem;
-        }
-
-/*        private void CreateOrderDetail(int quantity, decimal price, int specificallyShoesId, int orderId)
-        {
-            throw new NotImplementedException();
         }*/
+
+        /*        private void CreateOrderDetail(int quantity, decimal price, int specificallyShoesId, int orderId)
+                {
+                    throw new NotImplementedException();
+                }*/
 
 
 

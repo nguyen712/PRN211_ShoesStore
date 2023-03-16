@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
+using PRN211_ShoesStore.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,23 +14,38 @@ namespace PRN211_ShoesStore.Controllers
 
 		private readonly IOrderService _orderService;
 		private readonly ICartService _cartService;
-        public OrderController(IOrderService orderService, ICartService cartService)
+		private readonly UserService _userService;
+        public OrderController(IOrderService orderService, ICartService cartService, UserService userService)
 		{
 			_orderService = orderService;
 			_cartService = cartService;
-		}
+            _userService = userService;
 
-		public IActionResult CheckOut()
+        }
+
+		public IActionResult CheckOut(int cartItemId, decimal totalPrice)
 		{
-			var userId = HttpContext.Session.GetInt32("UserId");
-
-			List<CartItemDetails> check = _orderService.checkQuantity((int)userId);
-			if(check.Count() == 0)
+            int? userId = HttpContext.Session.GetInt32("UserId");
+			
+			User user = _userService.GetUserById(userId.Value);
+			try
+			{
+                _orderService.checkOut(userId, cartItemId, totalPrice);
+				MailUtils.SendMail("nguyenbkse151446@fpt.edu.vn", user.email, "Xác nhận thanh toán thành công", "Cảm ơn bạn đã thanh toán đơn hàng mệnh giá " + totalPrice);
+				return View();
+            }
+			catch (Exception ex)
+			{
+				TempData["Errormsg"] = ex.Message;
+			}
+			
+			/*if(check.Count() == 0)
 			{
 				return View();
-			}
+			}*/
 			//TempData["Errormsg"] = "Some Item in your cart are out of quatity";
-			return RedirectToAction("Index", "Cart", new { area = "" });
+			
+			return RedirectToAction("Index", "Cart");
 		}
 
 		public IActionResult OrderIndex()
