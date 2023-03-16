@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
 using PRN211_ShoesStore.Utils;
@@ -9,7 +10,8 @@ using System.Linq;
 
 namespace PRN211_ShoesStore.Controllers
 {
-	public class OrderController : Controller
+    [MyAuthenFIlter("User")]
+    public class OrderController : Controller
 	{
 
 		private readonly IOrderService _orderService;
