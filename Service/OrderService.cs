@@ -66,7 +66,7 @@ namespace PRN211_ShoesStore.Service
             Order order = new Order();
             order.userId = userId.Value;
             order.price = totalPrice;
-            order.status = true;
+            order.status = 0;
             order.createDate= DateTime.Now;
             bool res = _OrderRepository.Insert(order);
             if (res)
@@ -85,7 +85,7 @@ namespace PRN211_ShoesStore.Service
                     orderDetail.quantity = cartItem.Quantity;
                     orderDetail.orderId = order.orderId;
                     orderDetail.specificallyShoesId = cartItem.specificallyShoesId;
-                    orderDetail.status = true;
+                    orderDetail.status = 0;
                     _OrderDetailRepository.Insert(orderDetail);
                 }
                 foreach (var cartItem in cartItemDetails)
