@@ -30,6 +30,8 @@ namespace PRN211_ShoesStore.Repository.vH
                         .Include(sc => sc.SpecificallyShoes)
                             .ThenInclude(ss => ss.ColorSpecificallyShoes)
                                 .ThenInclude(sss => sss.color)
+                        .Include(sc => sc.SpecificallyShoes)
+                            .ThenInclude(ss=>ss.OrderDetails)
                         .ToList();
         }
 

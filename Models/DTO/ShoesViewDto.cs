@@ -12,5 +12,6 @@ namespace PRN211_ShoesStore.Models.DTO
         public List<Size> Sizes { get; set; }
         public CreateShoesDto CreateShoesDto { get; set; }
         public CreateSpecificShoesDto CreateSpecificShoesDto { get; set; }
+        public Dictionary<int, long> QuantitySoldByShoesId;
     }
 }

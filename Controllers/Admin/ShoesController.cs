@@ -20,6 +20,7 @@ using PRN211_ShoesStore.Filter;
 using System.Drawing;
 using PRN211_ShoesStore.Repository.vH.Interface;
 using Color = PRN211_ShoesStore.Models.Entity.Color;
+using System.Collections;
 
 namespace PRN211_ShoesStore.Controllers.Admin
 {
@@ -54,6 +55,7 @@ namespace PRN211_ShoesStore.Controllers.Admin
         public async Task<IActionResult> Index()
         {
             var shoes = _shoesService.GetAllShoes();
+            Dictionary<int, long> quantitySoldByShoesId = shoes.ToDictionary(s => s.id, s => s.SpecificallyShoes.SelectMany(cs => cs.OrderDetails).Sum(od => od.quantity));
             var categories = _categoryService.GetAllCategory();
             var colors = _colorService.GetAllColor();
             var sizes = _sizeRepository.GetAll().ToList();
@@ -63,7 +65,8 @@ namespace PRN211_ShoesStore.Controllers.Admin
                 Categories = categories,
                 Colors = colors,
                 Sizes = sizes,
-                CreateShoesDto = new CreateShoesDto()
+                CreateShoesDto = new CreateShoesDto(),
+                QuantitySoldByShoesId = quantitySoldByShoesId
             };
             return View("/ViewsAdmin/Shoes/Index.cshtml", viewModel);
         }
@@ -240,8 +243,11 @@ namespace PRN211_ShoesStore.Controllers.Admin
                     ColorSpecificallyShoes = new List<ColorSpecificallyShoes>() { new ColorSpecificallyShoes() { color = color, colorId = color.Id } },
                     SpecificallyShoesSize = new List<SpecificallyShoesSize>() { new SpecificallyShoesSize() { size = size, sizeId = size.id } }
                 };
+                List<SpecificallyShoes> specificShoesListByShoesID = _specificallyShoesRepository
+                    .GetAll(filter: ss => ss.shoesId == shoes.id, includeProperties: "ColorSpecificallyShoes.color,SpecificallyShoesSize.size")
+                    .ToList();
                 _specificallyShoesRepository.Add(specificallyShoes);
-                shoes.quantity = _specificallyShoesRepository.GetAll(filter: i=> i.shoesId==shoes.id).Sum(ss=>ss.quantity);
+                shoes.quantity = _specificallyShoesRepository.GetAll(filter: i => i.shoesId == shoes.id).Sum(ss => ss.quantity);
                 List<ShoesColor> shoesColors = _shoesColorRepository.GetAll(filter: i => i.shoesId == shoes.id, includeProperties: "color").Select(c => new ShoesColor { color = c.color }).ToList();
                 List<CategoryShoes> categoryShoes = _categoryShoesRepository.GetAll(filter: i => i.shoesId == shoes.id, includeProperties: "category").Select(cate => new CategoryShoes { category = cate.category }).ToList();
                 _shoesService.UpdateShoes(shoes, categoryShoes, shoesColors);
@@ -254,5 +260,41 @@ namespace PRN211_ShoesStore.Controllers.Admin
             return RedirectToAction("Index");
         }
 
+
+        [HttpPost]
+        [Route("SpecificShoes/Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(CreateSpecificShoesDto createSpecificShoesDto)
+        {
+            if (ModelState.IsValid)
+            {
+                string colorId = Request.Form["Color"];
+                int id = int.Parse(colorId);
+                Models.Entity.Color color = _colorService.GetColorByColorId(id);
+                createSpecificShoesDto.Color = color;
+                string sizeId = Request.Form["Size"];
+                id = int.Parse(sizeId);
+                Models.Entity.Size size = _sizeRepository.GetFirstOrDefault(s => s.id == id);
+                Shoes shoes = _shoesService.GetShoesByShoesId(createSpecificShoesDto.ShoesId);
+                SpecificallyShoes specificallyShoes = new()
+                {
+                    id = createSpecificShoesDto.id,
+                    name = createSpecificShoesDto.Name,
+                    quantity = createSpecificShoesDto.Quantity,
+                    price = createSpecificShoesDto.Price,
+                    status = createSpecificShoesDto.Status,
+                    shoesId = createSpecificShoesDto.ShoesId,
+                    ColorSpecificallyShoes = new List<ColorSpecificallyShoes>() { new ColorSpecificallyShoes() { color = color, colorId = color.Id } },
+                    SpecificallyShoesSize = new List<SpecificallyShoesSize>() { new SpecificallyShoesSize() { size = size, sizeId = size.id } }
+                };
+                _specificallyShoesRepository.Update(specificallyShoes);
+                TempData["Message"] = $"Specific Shoes {specificallyShoes.name} added successfully.";
+            }
+            else
+            {
+                TempData["Error"] = "An error occurred while adding the Shoes. Please try again later.";
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

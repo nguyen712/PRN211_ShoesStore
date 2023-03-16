@@ -5,10 +5,10 @@
 @using System.Text.Json
 @model OrderDetailsViewDto;
 @{
-    Layout = "~/ViewsAdmin/Shared/_AdminLayout.cshtml";
-    string formattedPhone = string.Format("{0:### ### ####}", double.Parse(Model.Order.user.phone));
-    int index = 0;
-    decimal total = 0;
+	Layout = "~/ViewsAdmin/Shared/_AdminLayout.cshtml";
+	string formattedPhone = string.Format("{0:### ### ####}", double.Parse(Model.Order.user.phone));
+	int index = 0;
+	decimal total = 0;
 }
 <div class="ec-content-wrapper">
 	<div class="content">
@@ -127,21 +127,42 @@
 										</tbody>
 									</table>
 								</div>
-								<div class="row justify-content-end inc-total">
+								<form asp-action="UpdateStatus" method="post">
+									<div class="row justify-content-end inc-total">
 										<div class="col-lg-3 col-xl-3 col-xl-3 ml-sm-auto">
+
 											<ul class="list-unstyled mt-3">
 												<li class="mid pb-3 text-dark">
-												<strong style="margin-left: 25px;">Order Status:</strong>
-													<span class="d-inline-block float-right text-default"></span>
+													<strong style="margin-left: 25px;">Order Status:</strong>
+													<select id="NewStatus" name="NewStatus" class="d-inline-block float-right text-default">
+														@if (Model.Order?.status == true)
+														{
+															<option value=@(true) selected>Accepted</option>
+														}
+														else
+														{
+															<option value=@(true)>Accepted</option>
+														}
+														@if (Model.Order?.status == false)
+														{
+															<option value=@(false) selected>Denied</option>
+														}
+														else
+														{
+															<option value=@(false)>Denied</option>
+														}
+													</select>
 												</li>
 											</ul>
 
-											<a href="javascript:void(0)" style="float:right;" class="btn mt-2 btn-primary btn-pill">
+											<input type="hidden" name="OrderId" value="@Model.Order.orderId" />
+											<button type="submit" style="float:right;" class="btn mt-2 btn-primary btn-pill">
 												Change Order
 												Status
-											</a>
+											</button>
 										</div>
 									</div>
+								</form>
 							</div>
 						</div>
 					</div>

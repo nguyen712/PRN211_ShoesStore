@@ -17,5 +17,6 @@ namespace PRN211_ShoesStore.Models.DTO
         public Color Color { get; set; }
         public Size Size { get; set; }
         public int ShoesId { get; set; }
+        public bool Status { get; set; }
     }
 }

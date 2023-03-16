@@ -7,6 +7,7 @@ using PRN211_ShoesStore.Service.vH;
 using PRN211_ShoesStore.Repository.vH.Interface;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Models.DTO;
+using PRN211_ShoesStore.Repository.vH;
 
 namespace PRN211_ShoesStore.Controllers.Admin
 {
@@ -48,5 +49,20 @@ namespace PRN211_ShoesStore.Controllers.Admin
 			return View("/ViewsAdmin/Order/Detail.cshtml", OrderDetailsViewDto);
         }
 
-    }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult UpdateStatus(ChangeOrderStatusRequest request)
+		{
+			var order = _orderRepository.GetFirstOrDefault(o=>o.orderId==request.OrderId);
+			if (order == null)
+			{
+				return NotFound();
+			}
+			order.status = request.NewStatus;
+			_orderRepository.Update(order);
+			TempData["Message"] = "You've change status of a order successfully.";
+			TempData["IsSuccess"] = "true";
+			return RedirectToAction("Details", new { id = request.OrderId });
+		}
+	}
 }

@@ -31,6 +31,7 @@ namespace PRN211_ShoesStore.Models.DTO
 
         public List<Color> Colors { get; set; }
         public List<Category> Categories { get; set; }
+
     }
 
     public class CreateRewardDtoValidator : AbstractValidator<CreateShoesDto>

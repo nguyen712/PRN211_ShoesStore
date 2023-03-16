@@ -76,15 +76,12 @@
                                                 <td>@order.price.ToString(("#.##"))</td>
                                                 <td>@order.user.phone</td>
                                                 <td>@order.user.address</td>
-                                                @if (order.status == false)
-                                                {
-                                                <td>Waiting</td>
-                                                }
-                                                else if (order.status == true)
+                                               
+                                                @if (order.status)
                                                 {
                                                     <td>Accepted</td>                    
                                                 }
-                                                else
+                                                else if (!order.status)
                                                 {
                                                     <td>Denied</td>                        
                                                 }
