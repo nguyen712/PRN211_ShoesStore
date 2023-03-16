@@ -44,7 +44,7 @@ namespace PRN211_ShoesStore.Controllers
             
 		}
 
-        
+        [MyAuthenFIlter("User")]
 		public IActionResult Index()
         {
 			//TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());

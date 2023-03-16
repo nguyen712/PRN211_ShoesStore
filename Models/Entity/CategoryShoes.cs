@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace PRN211_ShoesStore.Models.Entity
 {
@@ -18,7 +19,7 @@ namespace PRN211_ShoesStore.Models.Entity
         public int shoesId { get; set; }
 
         [ForeignKey("shoesId")]
-        public Shoes shoes { get; set; }
+		public Shoes shoes { get; set; }
 
         public bool status { get; set; }
     }

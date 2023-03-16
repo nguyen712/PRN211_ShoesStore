@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System;
 
 namespace PRN211_ShoesStore.Models.Entity
 {
@@ -29,5 +31,9 @@ namespace PRN211_ShoesStore.Models.Entity
         [ForeignKey("orderId")]
         public Order order { get; set; }
 
+        public static implicit operator List<object>(OrderDetail v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

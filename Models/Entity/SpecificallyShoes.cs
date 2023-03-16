@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace PRN211_ShoesStore.Models.Entity
 {
@@ -30,5 +31,11 @@ namespace PRN211_ShoesStore.Models.Entity
 
         [ForeignKey("shoesId")]
         public Shoes shoes { get; set; }
+
+        //
+        public virtual ICollection<ColorSpecificallyShoes> ColorSpecificallyShoes { get; set; }
+        public virtual ICollection<SpecificallyShoesSize> SpecificallyShoesSize { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
     }
 }
