@@ -22,18 +22,27 @@ namespace PRN211_ShoesStore.Controllers
         public IActionResult Index()
         {
             List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
-            TempData["Totalprice"] = res.First().CartItem.Price;
+            
+            if (res.Count()>0)
+            {
+                TempData["Totalprice"] = res.First().CartItem.Price;
+            }
+            else
+            {
+                TempData["Totalprice"] = 0;
+            }
+            
             return View(res);
         }
 
         
-        [HttpGet]
-        public IActionResult AddToCart(int specificallyShoesId, decimal price)
+        [HttpPost]
+        public IActionResult AddToCart(int specificallyShoesId, decimal price, int quantity)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             try
             {
-                _cartService.addToCartItem((int)userId, specificallyShoesId, price, 9.5);
+                _cartService.addToCartItem((int)userId, specificallyShoesId, price, 9.5, quantity);
             }
             catch (Exception ex)
             {
@@ -62,6 +71,7 @@ namespace PRN211_ShoesStore.Controllers
         public IActionResult Delete(int cartItemId, int cartId)
         {
             _cartService.DeleteCartItem(cartItemId, cartId);
+
             return RedirectToAction("Index");
         }
 

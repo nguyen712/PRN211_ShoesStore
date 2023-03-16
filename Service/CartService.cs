@@ -85,7 +85,7 @@ namespace PRN211_ShoesStore.Service
             return _cartItemRepository.Update(cart);
         }
 
-        public void addToCartItem(int UserId, int specificallyShoesId, decimal price, double sizeId)
+        public void addToCartItem(int UserId, int specificallyShoesId, decimal price, double sizeId, int quantity)
         {
             SpecificallyShoes specificallyShoes = _specificallyShoes.GetById(specificallyShoesId);
             CartItem cart = new CartItem();
@@ -100,7 +100,16 @@ namespace PRN211_ShoesStore.Service
             {
                 sizeOfShoes = _sizesRepository.GetData().Where(s => s.id == i.sizeId).FirstOrDefault();
             }
-            
+            if (quantity < 0)
+            {
+                throw new Exception("Quantity can not be a negative number.");
+            }
+            bool checkQuantity = quantity < specificallyShoes.quantity;
+            if (checkQuantity == false)
+            {
+                throw new Exception("This shoes is sold out");
+            }
+
             if (existCart != null)
             {
 
@@ -108,10 +117,9 @@ namespace PRN211_ShoesStore.Service
                 {
                     if (productCartIsExisted.specificallyShoesId == specificallyShoesId)
                     {
-                        int quantity = ++productCartIsExisted.Quantity;
-                        bool checkQuantity = quantity < specificallyShoes.quantity;
-                        if (checkQuantity)
-                        {
+                        
+                        /*if (checkQuantity)
+                        {*/
                             productCartIsExisted.Quantity = quantity;
                             productCartIsExisted.Price = quantity * price;
                             decimal totalPrice = 0;
@@ -135,17 +143,15 @@ namespace PRN211_ShoesStore.Service
                             _cartItemRepository.Update(existCart);
 
                             return;
-                        }
+                        /*}
                         else
                         {
                             throw new Exception("This shoes is sold out");
-                        }
+                        }*/
                     }
                 }
-               
-                
                 cartItemDetails.Price = price;
-                cartItemDetails.Quantity = 1;
+                cartItemDetails.Quantity = quantity;
                 cartItemDetails.ShoesName = specificallyShoes.name;
                 cartItemDetails.ShoesImg = shoes.image;
                 cartItemDetails.ShoesSize = Double.Parse(sizeOfShoes.sizeNumber);
@@ -168,7 +174,7 @@ namespace PRN211_ShoesStore.Service
             {
                 CartItem newCart = _cartItemRepository.GetData().First();
                 cartItemDetails.Price = price;
-                cartItemDetails.Quantity = 1;
+                cartItemDetails.Quantity = quantity;
                 cartItemDetails.ShoesName = specificallyShoes.name;
                 cartItemDetails.ShoesImg = shoes.image;
                 cartItemDetails.ShoesSize = Double.Parse(sizeOfShoes.sizeNumber);
