@@ -10,6 +10,7 @@ using PRN211_ShoesStore.Repository;
 using PRN211_ShoesStore.Service;
 using PRN211_ShoesStore.Utils;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 namespace PRN211_ShoesStore.Controllers
@@ -29,12 +30,14 @@ namespace PRN211_ShoesStore.Controllers
 
 		private readonly ILogger<HomeController> _logger;
 
+        private readonly ICartService _cartService;
+
         public HomeController(ILogger<HomeController> logger,
             IRepository<User> userRepository, 
             RoleRepository _roleRepository, 
             UserService userService, 
             IShoesService shoesService,
-			ICategoryService categoryService)
+			ICategoryService categoryService, ICartService cartService)
         {
             _logger = logger;
             _userRepository = userRepository;
@@ -42,20 +45,25 @@ namespace PRN211_ShoesStore.Controllers
             _userService = userService;
             _shoesService = shoesService;
             _categoryService = categoryService;
-            
+            _cartService = cartService;
 		}
 
         [MyAuthenFIlter("User")]
 		public IActionResult Index(int pg=1)
         {
-			//TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());
-			//TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
-             
-            
-			
-			
-		    // Do something with the userId value
-			var shoesList = _shoesService.GetShoes().ToList();
+            //TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());
+            //TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
+            List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
+            if (res.Count > 0)
+            {
+                TempData["CartQuantity"] = res.Count;
+            }
+            else
+            {
+                TempData["CartQuantity"] = 0;
+            }
+            // Do something with the userId value
+            var shoesList = _shoesService.GetShoes().ToList();
             const int pageSize = 4;
             if (pg < 1)
                     pg = 1;

@@ -18,18 +18,20 @@ namespace PRN211_ShoesStore.Controllers
             _cartService = cartService;
         }
 
-        
+        [HttpGet]
         public IActionResult Index()
         {
             List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
             
             if (res.Count()>0)
             {
+                TempData["CartQuantity"] = res.Count;
                 TempData["Totalprice"] = res.First().CartItem.Price;
             }
             else
             {
                 TempData["Totalprice"] = 0;
+                TempData["CartQuantity"] = 0;
             }
             
             return View(res);

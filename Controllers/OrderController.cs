@@ -33,7 +33,16 @@ namespace PRN211_ShoesStore.Controllers
 
 		public IActionResult OrderIndex()
 		{
-			return View();
+            List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
+            if (res.Count > 0)
+            {
+                TempData["CartQuantity"] = res.Count;
+            }
+            else
+            {
+                TempData["CartQuantity"] = 0;
+            }
+            return View();
 		}
 
 	}

@@ -18,15 +18,26 @@ namespace PRN211_ShoesStore.Controllers
     {
         private readonly AppDbContext _context = new AppDbContext();
         private readonly IShoesService _shoesService;
-        public ShoesController(IShoesService shoesService)
+        private readonly ICartService _cartService;
+        public ShoesController(IShoesService shoesService, ICartService cartService)
         {
             _shoesService = shoesService;
+            _cartService = cartService;
         }
 
         // GET: Shoes - da duoc chinh sua
         public IActionResult Index(int pg = 1)
         {
-			var shoesList = _shoesService.GetShoes().ToList();
+            List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
+            if (res.Count > 0)
+            {
+                TempData["CartQuantity"] = res.Count;
+            }
+            else
+            {
+                TempData["CartQuantity"] = 0;
+            }
+            var shoesList = _shoesService.GetShoes().ToList();
 			const int pageSize = 12;
 			if (pg < 1)
 				pg = 1;
