@@ -98,7 +98,6 @@ namespace PRN211_ShoesStore.Repository
                 return false;
             }
         }
-
         public IEnumerable<Shoes> GetShoesByCategoryId(int categoryId)
 		{
 			try
