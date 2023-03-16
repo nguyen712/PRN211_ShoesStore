@@ -1,7 +1,17 @@
-﻿@model IEnumerable<PRN211_ShoesStore.Models.Entity.Shoes>
+﻿@using PRN211_ShoesStore.Models.DTO;
+@model IEnumerable<PRN211_ShoesStore.Models.Entity.Shoes>
 
 @{
     ViewData["Title"] = "Index";
+	Pager pager = new Pager();
+
+	int pageNo = 0;
+
+	if (ViewBag.Pager != null)
+	{
+		pager = ViewBag.Pager;
+		pageNo = pager.CurrentPage;
+	}
 }
 
 	<main>
@@ -226,8 +236,23 @@
 				<!-- /col -->		
 			</div>
 			<!-- /row -->
-				
-			<div class="pagination__wrapper">
+			<!--paging-->
+
+		<div class="pagination__wrapper">
+			@if (pager.TotalPages > 0)
+			{
+				<ul class="pagination">
+					
+					@for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+					{
+						<li class="@(pge == pager.CurrentPage ? "active" : "")">
+							<a asp-asp-controller="Product" asp-action="Index" asp-route-pg="@pge">@pge</a>
+						</li>
+					}
+				</ul>
+			}
+		</div>
+			@*<div class="pagination__wrapper">
 				<ul class="pagination">
 					<li><a href="#0" class="prev" title="previous page">&#10094;</a></li>
 					<li>
@@ -244,7 +269,7 @@
 					</li>
 					<li><a href="#0" class="next" title="next page">&#10095;</a></li>
 				</ul>
-			</div>
+			</div>*@
 				
 		</div>
 		<!-- /container -->

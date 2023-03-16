@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models;
+using PRN211_ShoesStore.Models.DTO;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
 
@@ -23,9 +24,24 @@ namespace PRN211_ShoesStore.Controllers
         }
 
         // GET: Shoes - da duoc chinh sua
-        public IActionResult Index()
+        public IActionResult Index(int pg = 1)
         {
-            return View(_shoesService.GetShoes());
+			var shoesList = _shoesService.GetShoes().ToList();
+			const int pageSize = 3;
+			if (pg < 1)
+				pg = 1;
+
+			int recsCount = shoesList.Count;
+			var pager = new Pager(recsCount, pg, pageSize);
+			int recSkip = (pg - 1) * pageSize;
+
+			var data = shoesList.Skip(recSkip).Take(pager.PageSize).ToList();
+
+			this.ViewBag.pager = pager;
+
+			
+
+			return View(data);
         }
         //public IActionResult SortShoeByCategory()
         //{

@@ -1,13 +1,24 @@
 @model List<PRN211_ShoesStore.Models.Entity.Shoes>
 @using Newtonsoft.Json;
 @using PRN211_ShoesStore.Models;
+@using PRN211_ShoesStore.Models.DTO;
 @using PRN211_ShoesStore.Models.Entity;
 @using System.Text.Json
 
 @{
 	ViewData["Title"] = "Home Page";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-	
+
+	Pager pager = new Pager();
+
+	int pageNo = 0;
+
+	if (ViewBag.Pager != null)
+	{
+		pager = ViewBag.Pager;
+		pageNo = pager.CurrentPage;
+	}
+
 }
 <!-- main -->
 <main>
@@ -189,6 +200,21 @@
 		<!-- /row -->
 	</div>
 	<!-- /container -->
+	<div>
+		@if(pager.TotalPages > 0)
+		{
+			<ul>
+				@for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+				{
+					<li class="@(pge == pager.CurrentPage ? "active" : "")">
+						<a asp-asp-controller="Product" asp-action="Index" asp-route-pg="@pge">@pge</a>
+					</li>
+				}
+			</ul>
+		}
+	</div>
+
+	
 
 	<div class="featured lazy" data-bg="url()">
 		<img src="~/img/featured_home.jpg" />

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models;
+using PRN211_ShoesStore.Models.DTO;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository;
 using PRN211_ShoesStore.Service;
@@ -45,7 +46,7 @@ namespace PRN211_ShoesStore.Controllers
 		}
 
         [MyAuthenFIlter("User")]
-		public IActionResult Index()
+		public IActionResult Index(int pg=1)
         {
 			//TempData["Categories"] = JsonConvert.SerializeObject(_categoryService.GetCategories());
 			//TempData["Colors"] = JsonConvert.SerializeObject(_colorService.GetAllColor());
@@ -55,7 +56,19 @@ namespace PRN211_ShoesStore.Controllers
 			
 		    // Do something with the userId value
 			var shoesList = _shoesService.GetShoes().ToList();
-			return View(shoesList);
+            const int pageSize = 3;
+            if (pg < 1)
+                    pg = 1;
+
+            int recsCount = shoesList.Count;
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = shoesList.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            this.ViewBag.pager = pager;
+             
+            return View(data);
 			
 
             
