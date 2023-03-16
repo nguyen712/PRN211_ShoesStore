@@ -38,7 +38,7 @@ namespace PRN211_ShoesStore.Controllers
                 TempData["CartQuantity"] = 0;
             }
             var shoesList = _shoesService.GetShoes().ToList();
-			const int pageSize = 12;
+			const int pageSize = 8;
 			if (pg < 1)
 				pg = 1;
 

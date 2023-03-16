@@ -39,12 +39,12 @@ namespace PRN211_ShoesStore.Controllers
 
         
         [HttpPost]
-        public IActionResult AddToCart(int specificallyShoesId, decimal price, int quantity)
+        public IActionResult AddToCart(int specificallyShoesId, decimal price,int size, int quantity)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             try
             {
-                _cartService.addToCartItem((int)userId, specificallyShoesId, price, 9.5, quantity);
+                _cartService.addToCartItem((int)userId, specificallyShoesId, price, size, quantity);
             }
             catch (Exception ex)
             {

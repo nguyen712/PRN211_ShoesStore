@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<main class="bg_white">
+<main style="background-color: #ECEFF1">
     <div class="container margin_30">
         <div class="page_header">
             <h1>@Html.DisplayFor(model => model.name)</h1>
@@ -64,7 +64,7 @@
                                 <label class="col-xl-7 col-lg-5 col-md-6 col-6"><strong>Size</strong> - Size Guide <a href="#0" data-toggle="modal" data-target="#size-modal"><i class="ti-help-alt"></i></a></label>
                                 <div class="col-xl-5 col-lg-5 col-md-6 col-6">
                                     <div class="custom-select-form">
-                                        <select class="wide">
+                                        <select name="size" class="wide">
                                             <option value="43" selected="">43</option>
                                             <option value="44">44</option>
                                             <option value="45">45</option>
