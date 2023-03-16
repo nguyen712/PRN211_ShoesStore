@@ -83,7 +83,23 @@ namespace PRN211_ShoesStore.Repository
             }
         }
 
-		public IEnumerable<Shoes> GetShoesByCategoryId(int categoryId)
+        public bool Delete (T entity)
+        {
+            try
+            {
+                EntityEntry entityEntry = _appDbContext.Entry<T>(entity);
+                entityEntry.State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                _appDbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+        }
+
+        public IEnumerable<Shoes> GetShoesByCategoryId(int categoryId)
 		{
 			try
 			{

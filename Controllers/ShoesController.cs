@@ -5,25 +5,54 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models;
+using PRN211_ShoesStore.Models.DTO;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
 
 namespace PRN211_ShoesStore.Controllers
 {
+    [MyAuthenFIlter("User")]
     public class ShoesController : Controller
     {
         private readonly AppDbContext _context = new AppDbContext();
         private readonly IShoesService _shoesService;
-        public ShoesController(IShoesService shoesService)
+        private readonly ICartService _cartService;
+        public ShoesController(IShoesService shoesService, ICartService cartService)
         {
             _shoesService = shoesService;
+            _cartService = cartService;
         }
 
         // GET: Shoes - da duoc chinh sua
-        public IActionResult Index()
+        public IActionResult Index(int pg = 1)
         {
-            return View(_shoesService.GetShoes());
+            List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
+            if (res.Count > 0)
+            {
+                TempData["CartQuantity"] = res.Count;
+            }
+            else
+            {
+                TempData["CartQuantity"] = 0;
+            }
+            var shoesList = _shoesService.GetShoes().ToList();
+			const int pageSize = 12;
+			if (pg < 1)
+				pg = 1;
+
+			int recsCount = shoesList.Count;
+			var pager = new Pager(recsCount, pg, pageSize);
+			int recSkip = (pg - 1) * pageSize;
+
+			var data = shoesList.Skip(recSkip).Take(pager.PageSize).ToList();
+
+			this.ViewBag.pager = pager;
+
+			
+
+			return View(data);
         }
         //public IActionResult SortShoeByCategory()
         //{
@@ -47,6 +76,24 @@ namespace PRN211_ShoesStore.Controllers
 
             return View(shoes);
         }
+
+        public ActionResult Search(string searchTerm)
+        {
+            // Perform a search for the specified searchTerm
+            // and return the results to the view
+
+            if (searchTerm == null)
+            {
+                return View("Index");
+            }
+
+            var results = _shoesService.GetShoes()
+                .Where(p => p.name.Contains(searchTerm))
+                .ToList();
+
+            return View("Index", results);
+        }
+
 
         // GET: Shoes/Create
         public IActionResult Create()

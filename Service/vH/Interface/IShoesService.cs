@@ -10,6 +10,7 @@ namespace PRN211_ShoesStore.Service.vH.Interface
         public Shoes GetShoesByShoesId(int id);
         public Shoes GetShoesByName(string shoesName);
         public void UpdateShoes(Shoes shoes);
+        public void UpdateShoes(Shoes shoes, List<CategoryShoes> categoryShoes, List<ShoesColor> shoesColors);
         public void RemoveShoes(Shoes shoes);
     }
 }

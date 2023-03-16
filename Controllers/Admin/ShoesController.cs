@@ -242,9 +242,9 @@ namespace PRN211_ShoesStore.Controllers.Admin
                 };
                 _specificallyShoesRepository.Add(specificallyShoes);
                 shoes.quantity = _specificallyShoesRepository.GetAll(filter: i=> i.shoesId==shoes.id).Sum(ss=>ss.quantity);
-                shoes.ShoesColors = _shoesColorRepository.GetAll(filter: i => i.shoesId == shoes.id, includeProperties: "color").Select(c => new ShoesColor { color = c.color }).ToList();
-                shoes.CategoryShoes = _categoryShoesRepository.GetAll(filter: i => i.shoesId == shoes.id, includeProperties: "category").Select(cate => new CategoryShoes { category = cate.category }).ToList();
-                _shoesService.UpdateShoes(shoes);
+                List<ShoesColor> shoesColors = _shoesColorRepository.GetAll(filter: i => i.shoesId == shoes.id, includeProperties: "color").Select(c => new ShoesColor { color = c.color }).ToList();
+                List<CategoryShoes> categoryShoes = _categoryShoesRepository.GetAll(filter: i => i.shoesId == shoes.id, includeProperties: "category").Select(cate => new CategoryShoes { category = cate.category }).ToList();
+                _shoesService.UpdateShoes(shoes, categoryShoes, shoesColors);
                 TempData["Message"] = $"Specific Shoes {specificallyShoes.name} added successfully.";
             }
             else

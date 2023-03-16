@@ -261,7 +261,7 @@ namespace PRN211_ShoesStore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    userId = table.Column<int>(type: "int", nullable: true),
+                    userId = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -272,7 +272,7 @@ namespace PRN211_ShoesStore.Migrations
                         column: x => x.userId,
                         principalTable: "User",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -383,7 +383,7 @@ namespace PRN211_ShoesStore.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     cartItemId = table.Column<int>(type: "int", nullable: true),
-                    shoesId = table.Column<int>(type: "int", nullable: true),
+                    specificallyShoesId = table.Column<int>(type: "int", nullable: true),
                     ShoesName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShoesImg = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
@@ -399,9 +399,9 @@ namespace PRN211_ShoesStore.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CartItemDetails_Shoes_shoesId",
-                        column: x => x.shoesId,
-                        principalTable: "Shoes",
+                        name: "FK_CartItemDetails_ShoesSpecifically_specificallyShoesId",
+                        column: x => x.specificallyShoesId,
+                        principalTable: "ShoesSpecifically",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -446,9 +446,9 @@ namespace PRN211_ShoesStore.Migrations
                 column: "cartItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItemDetails_shoesId",
+                name: "IX_CartItemDetails_specificallyShoesId",
                 table: "CartItemDetails",
-                column: "shoesId");
+                column: "specificallyShoesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryShoes_categoryId",

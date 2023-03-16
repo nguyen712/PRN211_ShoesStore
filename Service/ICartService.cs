@@ -16,6 +16,8 @@ namespace PRN211_ShoesStore.Service
 
         public IEnumerable<CartItemDetails> GetCartItemDetails();
 
-        public void addToCartItem(int UserId, int specificallyShoesId, decimal price);
+        public void addToCartItem(int UserId, int specificallyShoesId, decimal price, double sizeId, int quantity);
+
+        void DeleteCartItem(int cartItemId, int cartId);
     }
 }

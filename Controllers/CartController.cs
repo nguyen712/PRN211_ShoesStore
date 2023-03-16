@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Service;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace PRN211_ShoesStore.Controllers
 {
+    [MyAuthenFIlter("User")]
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
@@ -16,21 +18,33 @@ namespace PRN211_ShoesStore.Controllers
             _cartService = cartService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
+            
+            if (res.Count()>0)
+            {
+                TempData["CartQuantity"] = res.Count;
+                TempData["Totalprice"] = res.First().CartItem.Price;
+            }
+            else
+            {
+                TempData["Totalprice"] = 0;
+                TempData["CartQuantity"] = 0;
+            }
+            
             return View(res);
         }
 
-        [HttpGet]
-        public IActionResult AddToCart(int specificallyShoesId, decimal price)
+        
+        [HttpPost]
+        public IActionResult AddToCart(int specificallyShoesId, decimal price, int quantity)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             try
             {
-                
-
-                _cartService.addToCartItem((int)userId, specificallyShoesId, price);
+                _cartService.addToCartItem((int)userId, specificallyShoesId, price, 9.5, quantity);
             }
             catch (Exception ex)
             {
@@ -47,11 +61,21 @@ namespace PRN211_ShoesStore.Controllers
             {
                 return RedirectToAction("Delete");
             }
-             _cartService.UpdateCartItem(cartItemId,cartId, quantity, shoesId);
-            TempData["Errormsg"] = "Quantity update can not be large than shoes quantity.";
+            bool res = _cartService.UpdateCartItem(cartItemId, cartId, quantity, shoesId);
+            if (res == false)
+            {
+                TempData["Errormsg"] = "Quantity update can not be large than shoes quantity.";
+            }
             return RedirectToAction("Index");
         }
 
-        
+        [HttpGet]
+        public IActionResult Delete(int cartItemId, int cartId)
+        {
+            _cartService.DeleteCartItem(cartItemId, cartId);
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

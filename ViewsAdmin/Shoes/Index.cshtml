@@ -198,12 +198,12 @@
                                                                         <td style="font-weight:normal;">@subItem.SpecificallyShoesSize.FirstOrDefault().size.sizeNumber</td>
                                                                         <td style="font-weight:normal;">@(subItem.status ? "Active" : "Inactive")</td>
                                                                         <td>
-                                                                            <a href="#editCategoryModal" class="edit" data-toggle="modal" data-id="@subItem.id"
+                                                                            <a href="#editSpecificShoesModal" class="editSpecificShoes" data-toggle="modal" data-id="@subItem.id"
                                                                data-name="@subItem.name" data-status=@(@subItem.status ? true : false)>
                                                                                 <i class="material-icons" data-toggle="tooltip"
                                                                    title="Edit">&#xE254;</i>
                                                                             </a>
-                                                                            <a href="#deleteCategoryModal" class="delete" data-toggle="modal" accesskey=""
+                                                                            <a href="#deleteSpecificShoesModal" class="deleteSpecificShoes" data-toggle="modal" accesskey=""
                                                                data-id="@subItem.id">
                                                                                 <i class="material-icons" data-toggle="tooltip"
                                                                    title="Delete">&#xE872;</i>
