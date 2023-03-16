@@ -4,20 +4,20 @@ using System.Runtime.CompilerServices;
 
 namespace PRN211_ShoesStore.Service
 {
-    public interface ICartService
-    {
-        IEnumerable<CartItem> GetCartItem();
+	public interface ICartService
+	{
+		IEnumerable<CartItem> GetCartItem();
 
-        CartItem GetCartItemById(int CartItemId);
+		CartItem GetCartItemById(int CartItemId);
 
-        IEnumerable<CartItem> GetCartItemByName(string CartItemname);
+		IEnumerable<CartItem> GetCartItemByName(string CartItemname);
 
-        bool UpdateCartItem(int cartItemId, int cartId, int quantity, int shoesId);
+		bool UpdateCartItem(int cartItemId, int cartId, int quantity, int shoesId);
 
-        public IEnumerable<CartItemDetails> GetCartItemDetails();
+		public IEnumerable<CartItemDetails> GetCartItemDetails();
 
-        public void addToCartItem(int UserId, int shoesId, decimal price, double sizeId, int quantity);
+		public void addToCartItem(int UserId, int shoesId, decimal price, double sizeId, int quantity);
 
-        void DeleteCartItem(int cartItemId, int cartId);
-    }
+		void DeleteCartItem(int cartItemId, int cartId);
+	}
 }

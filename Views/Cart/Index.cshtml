@@ -84,12 +84,12 @@
                     </div>
 
                     @*<div class="col-sm-8">
-                        <div class="apply-coupon">
-                            <div class="form-group form-inline">
-                                <input type="text" name="coupon-code" value="" placeholder="Promo code" class="form-control"><button type="button" class="btn_1 outline">Apply Coupon</button>
-                            </div>
-                        </div>
-                    </div>*@
+                <div class="apply-coupon">
+                <div class="form-group form-inline">
+                <input type="text" name="coupon-code" value="" placeholder="Promo code" class="form-control"><button type="button" class="btn_1 outline">Apply Coupon</button>
+                </div>
+                </div>
+                </div>*@
                 </div>
                 <!-- /cart_actions -->
 
@@ -99,32 +99,32 @@
     }
     @if (Model.Count() > 0)
     {
-    <div class="box_cart">
-        <div class="container">
-            <div class="row justify-content-end">
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <ul>
-                        @if (TempData["Totalprice"] != null)
-                        {
-                        <li>
-                                <span>Total</span> $@TempData["Totalprice"] VNĐ
-                        </li>
-                        }
-                        @*<li>
+        <div class="box_cart">
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <ul>
+                            @if (TempData["Totalprice"] != null)
+                            {
+                                <li>
+                                    <span>Total</span> $@TempData["Totalprice"] VNĐ
+                                </li>
+                            }
+                            @*<li>
                         <span>Shipping</span> $7.00
                         </li>
                         <li>
                         <span>Total</span> $247.00
                         </li>*@
-                    </ul>
-                    
+                        </ul>
+
                         <a href="~/Order/CheckOut?totalPrice=@TempData["Totalprice"]&cartItemId=@Model.First().CartItem.Id" class="btn_1 full-width cart">Proceed to Checkout</a>
-                    
-                   
+
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     }
     <!-- /box_cart -->
     @if (TempData["Errormsg"] != null)

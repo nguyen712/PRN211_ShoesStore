@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PRN211_ShoesStore.Models.Entity
@@ -14,5 +15,10 @@ namespace PRN211_ShoesStore.Models.Entity
         public string name { get; set; }
 
         public bool status { get; set; }
+        
+        
+        //
+        public virtual ICollection<CategoryShoes> CategoryShoes { get; set; }
+
     }
 }

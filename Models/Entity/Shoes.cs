@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace PRN211_ShoesStore.Models.Entity
 {
@@ -26,5 +27,14 @@ namespace PRN211_ShoesStore.Models.Entity
         public bool status { get; set; }
 
         public long quantity { get; set; }
+
+
+        //
+        public virtual ICollection<CategoryShoes> CategoryShoes { get; set; }
+        public virtual ICollection<ShoesImage> ShoesImages { get; set; }
+        public virtual ICollection<ShoesColor> ShoesColors { get; set; }
+        public virtual ICollection<SpecificallyShoes> SpecificallyShoes { get; set; }
+        //
+
     }
 }

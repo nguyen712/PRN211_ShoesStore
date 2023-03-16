@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using PRN211_ShoesStore.Utils.Interface;
+using PRN211_ShoesStore.Utils;
 
 namespace PRN211_ShoesStore
 {
@@ -74,8 +76,36 @@ namespace PRN211_ShoesStore
 			services.AddSingleton<ShoesRepository>();
 			services.AddSingleton<ShoesImageRepository>();
 			services.AddSingleton<UserService>();
-            //services.AddSingleton<OrderService>();
-        }
+			//services.AddSingleton<OrderService>();
+
+
+
+
+
+			//
+			services.AddScoped<AppDbContext>();
+			services.AddScoped<IConfig, Config>();
+			services.AddScoped<IJwtService, JwtService>();
+			services.AddScoped<IUploadFileService, UploadFileService>();
+			services.AddScoped<Repository.vH.Interface.IUserRepository, Repository.vH.UserRepository2>();
+			services.AddScoped<Service.vH.Interface.IUserService, Service.vH.UserService2>();
+			services.AddScoped<Repository.vH.Interface.ICategoryRepository, Repository.vH.CategoryRepository2>();
+			services.AddScoped<Service.vH.Interface.ICategoryService, Service.vH.CategoryService2>();
+			services.AddScoped<Repository.vH.Interface.ISizeRepository, Repository.vH.SizeRepository2>();
+			services.AddScoped<Service.vH.Interface.ISizeService, Service.vH.SizeService2>();
+			services.AddScoped<Repository.vH.Interface.IColorRepository, Repository.vH.ColorRepository2>();
+			services.AddScoped<Service.vH.Interface.IColorService, Service.vH.ColorService2>();
+			services.AddScoped<Repository.vH.Interface.IShoesRepository, Repository.vH.ShoesRepository2>();
+			services.AddScoped<Service.vH.Interface.IShoesService, Service.vH.ShoesService2>();
+			services.AddScoped<Repository.vH.Interface.IImageRepository, Repository.vH.ImageRepository2>();
+			services.AddScoped<Service.vH.Interface.IImageService, Service.vH.ImageService2>();
+			services.AddScoped<Repository.vH.Interface.IOrderRepository, Repository.vH.OrderRepository2>();
+			services.AddScoped<Service.vH.Interface.IOrderService, Service.vH.OrderService2>();
+			services.AddScoped<Repository.vH.Interface.IOrderDetailRepository, Repository.vH.OrderDetailRepository2>();
+			services.AddScoped<Service.vH.Interface.IOrderDetailService, Service.vH.OrderDetailService2>();
+			services.AddScoped(typeof(Repository.vH.Interface.IRepository<>), typeof(Repository.vH.Repository<>));
+			//
+		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
