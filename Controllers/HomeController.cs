@@ -100,7 +100,7 @@ namespace PRN211_ShoesStore.Controllers
             return View("Views/Home/Login.cshtml");
         }
 
-        [MyAuthenFIlter("User")]
+        
         [HttpGet]
         public IActionResult Register()
         {

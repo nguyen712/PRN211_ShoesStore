@@ -68,10 +68,6 @@ namespace PRN211_ShoesStore.Controllers
 		{
             int? userId = HttpContext.Session.GetInt32("UserId");
 			List<OrderDetail> orderDetails = _orderService.ViewOrder(userId.Value);
-			if (!(orderDetails.Count > 0))
-			{
-				TempData["erroMsg"] = "Your order is pending.";
-			}
 			return View(orderDetails);
         }
 	}
