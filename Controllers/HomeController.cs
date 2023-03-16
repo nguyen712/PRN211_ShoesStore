@@ -56,7 +56,7 @@ namespace PRN211_ShoesStore.Controllers
 			
 		    // Do something with the userId value
 			var shoesList = _shoesService.GetShoes().ToList();
-            const int pageSize = 3;
+            const int pageSize = 4;
             if (pg < 1)
                     pg = 1;
 

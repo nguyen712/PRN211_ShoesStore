@@ -27,7 +27,7 @@ namespace PRN211_ShoesStore.Controllers
         public IActionResult Index(int pg = 1)
         {
 			var shoesList = _shoesService.GetShoes().ToList();
-			const int pageSize = 3;
+			const int pageSize = 12;
 			if (pg < 1)
 				pg = 1;
 
