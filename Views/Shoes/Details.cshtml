@@ -36,7 +36,7 @@
                     <div class="prod_info version_2">
                         <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span>
                         <p><larg style="font-weight:bold">Shoe Description</larg><br>@Html.DisplayFor(model => model.shoesDetails)</p>
-                        <p>Your choice is a great contribution to us. Thank you for viewing our products.</p>
+                        <p>Thank you for trusting and buying our products. </br> The fact that you choose to buy shoes from us is not only a very valuable thing but also a great encouragement to us. </br> With your support, we will continue to work hard and improve the quality of our products so that we can better meet the needs of our customers.</p>
                     </div>
                 </div>
                 <div class="col-lg-5">
@@ -115,7 +115,7 @@
     </div>
     <!-- /bg_white -->
 
-    <div class="tabs_product bg_white version_2">
+    @*<div class="tabs_product bg_white version_2">
         <div class="container">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
@@ -123,13 +123,12 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div>*@
     <!-- /tabs_product -->
 
-    <div class="tab_content_wrapper">
+    @*<div class="tab_content_wrapper">
         <div class="container">
             <div class="tab-content" role="tablist">
-                <!-- /TAB A -->
                 <div id="pane-B" class="card tab-pane fade active show" role="tabpanel" aria-labelledby="tab-B">
                     <div id="collapse-B" class="tab" role="tabpanel" aria-labelledby="heading-B">
                         <div class="card-body">
@@ -155,7 +154,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /row -->
                             <div class="row justify-content-between">
                                 <div class="col-lg-5">
                                     <div class="review_content">
@@ -178,27 +176,46 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /row -->
                             <p class="text-right"><a href="leave-review.html" class="btn_1">Leave a review</a></p>
                         </div>
-                        <!-- /card-body -->
                     </div>
-
                 </div>
-                <!-- /tab B -->
             </div>
-            <!-- /tab-content -->
         </div>
-        <!-- /container -->
-    </div>
+    </div>*@
     <!-- /tab_content_wrapper -->
-
-    <div class="bg_white">
-        <div class="container margin_60_35">
-            <!-- /products_carousel -->
-        </div>
-        <!-- /container -->
-    </div>
-    <!-- /bg_white -->
+    <div class="feat">
+			<div class="container">
+				<ul>
+					<li>
+						<div class="box">
+							<i class="ti-gift"></i>
+							<div class="justify-content-center">
+								<h3>Free Shipping</h3>
+								<p>For all oders over $99</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="box">
+							<i class="ti-wallet"></i>
+							<div class="justify-content-center">
+								<h3>Secure Payment</h3>
+								<p>100% secure payment</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="box">
+							<i class="ti-headphone-alt"></i>
+							<div class="justify-content-center">
+								<h3>24/7 Support</h3>
+								<p>Online top support</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 </main>
 <!-- /main -->

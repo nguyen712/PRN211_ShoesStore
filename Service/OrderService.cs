@@ -71,13 +71,14 @@ namespace PRN211_ShoesStore.Service
 			return _OrderDetailRepository.Insert(orderDetail);
 		}
 
-		public List<CartItemDetails> checkQuantity(int UserID)
+        public List<CartItemDetails> checkQuantity(int UserID)
         {
             bool check = true;
 			IEnumerable<CartItem> item = _cartItemRepository.GetData(s => s.userId == UserID);
             List<CartItemDetails> itemDetails = (List<CartItemDetails>)_cartItemDetailsRepository.GetData(s => s.cartItemId == item.FirstOrDefault().Id);
             List<CartItemDetails> outItem = new List<CartItemDetails>();
-			foreach (var x in itemDetails)
+            _OrderRepository.Insert(CreateOrder(UserID, 0));
+            foreach (var x in itemDetails)
             {
 				SpecificallyShoes Sshoe = _specificallyShoes.GetById(x.specificallyShoesId);
                 Shoes shoes = _ShoesRepository.GetById(Sshoe.shoesId);
@@ -89,6 +90,8 @@ namespace PRN211_ShoesStore.Service
                 {
                     if (outItem.Count() == 0)
                     {
+                        IEnumerable<Order> od = _OrderRepository.GetData(s => s.userId == UserID);
+                        CreateOrderDetail(x.Quantity, (double)x.Price,x.specificallyShoesId,od.FirstOrDefault().orderId);
                         Sshoe.quantity = Sshoe.quantity - x.Quantity;
                         shoes.quantity = Sshoe.quantity;
 						_specificallyShoes.Update(Sshoe);
@@ -98,10 +101,19 @@ namespace PRN211_ShoesStore.Service
                     }
 				}
 			}
+            if (itemDetails.Count == 0)
+            {
+                _cartItemRepository.Delete(item.FirstOrDefault());
+            }
             return outItem;
         }
 
-        
+/*        private void CreateOrderDetail(int quantity, decimal price, int specificallyShoesId, int orderId)
+        {
+            throw new NotImplementedException();
+        }*/
+
+
 
 
         /*public IEnumerable<CartItemDetails> GetCartItemDetails()

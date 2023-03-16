@@ -12,7 +12,7 @@ namespace PRN211_ShoesStore.Controllers
 
 		private readonly IOrderService _orderService;
 		private readonly ICartService _cartService;
-		public OrderController(IOrderService orderService, ICartService cartService)
+        public OrderController(IOrderService orderService, ICartService cartService)
 		{
 			_orderService = orderService;
 			_cartService = cartService;
@@ -25,15 +25,9 @@ namespace PRN211_ShoesStore.Controllers
 			List<CartItemDetails> check = _orderService.checkQuantity((int)userId);
 			if(check.Count() == 0)
 			{
-				Order newOrder = _orderService.CreateOrder((int)userId, 0);
-				//List<CartItemDetails> res = _cartService.GetCartItemDetails().ToList();
-				foreach (var a in check)
-				{
-					_orderService.CreateOrderDetail(a.Quantity, (double)a.Price, a.specificallyShoesId, newOrder.orderId);
-				}
 				return View();
 			}
-			TempData["Errormsg"] = "Some Item in your cart are out of quatity";
+			//TempData["Errormsg"] = "Some Item in your cart are out of quatity";
 			return RedirectToAction("Index", "Cart", new { area = "" });
 		}
 
