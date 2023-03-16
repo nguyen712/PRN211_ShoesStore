@@ -150,10 +150,11 @@
 						<figure>
 							<span class="ribbon off">-30%</span>
 							<a href="/Shoes/Details/@Html.DisplayFor(modelItem => item.id)">
-								<img class="img-fluid lazy" src="~/img/products/product_placeholder_square_medium.jpg"
+								<img class="img-fluid lazy" style="width: 290px; height: 290px;" src="@item.image" data-src="@Html.DisplayFor(modelItem => item.image)" alt="">
+								@*<img class="img-fluid lazy" src="~/img/products/product_placeholder_square_medium.jpg"
 									 data-src="@Html.DisplayFor(modelItem => item.image)" alt="@Html.DisplayFor(modelItem => item.image)">
 								<img class="img-fluid lazy" src="~/img/products/product_placeholder_square_medium.jpg"
-									 data-src="@Html.DisplayFor(modelItem => item.image)" alt="@Html.DisplayFor(modelItem => item.image)">
+									 data-src="@Html.DisplayFor(modelItem => item.image)" alt="@Html.DisplayFor(modelItem => item.image)">*@
 							</a>
 							<div data-countdown="2019/05/15" class="countdown"></div>
 						</figure>
