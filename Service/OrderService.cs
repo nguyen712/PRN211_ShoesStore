@@ -85,15 +85,15 @@ namespace PRN211_ShoesStore.Service
                     orderDetail.quantity = cartItem.Quantity;
                     orderDetail.orderId = order.orderId;
                     orderDetail.specificallyShoesId = cartItem.specificallyShoesId;
-                    orderDetail.status = 0;
+                    orderDetail.status = 1;
                     _OrderDetailRepository.Insert(orderDetail);
                 }
-                /*foreach (var cartItem in cartItemDetails)
+                foreach (var cartItem in cartItemDetails)
                 {
                     SpecificallyShoes SpecShoes = _specificallyShoes.GetById(cartItem.specificallyShoesId);
                     SpecShoes.quantity -= cartItem.Quantity;
                     _specificallyShoes.Update(SpecShoes);
-                }*/
+                }
 
                 foreach (var cartItem in cartItemDetails)
                 {
@@ -111,7 +111,7 @@ namespace PRN211_ShoesStore.Service
 
         public List<OrderDetail> ViewOrder(int? userId)
         {
-            List<OrderDetail> orderDetails = _OrderDetailRepository.GetData(o => o.order.user.id == userId.Value && o.status == 1).ToList();
+            List<OrderDetail> orderDetails = _OrderDetailRepository.GetData(o => o.order.user.id == userId.Value && o.order.status == 1).ToList();
             //List<OrderDetail> ordersOut = null;
             
             if (orderDetails.Count > 0)
