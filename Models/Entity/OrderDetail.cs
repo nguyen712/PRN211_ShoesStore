@@ -17,7 +17,7 @@ namespace PRN211_ShoesStore.Models.Entity
         public double price { get; set; }
 
         [Required]
-        public bool status { get; set; }
+        public int status { get; set; }
 
         public int specificallyShoesId { get; set; }
 
