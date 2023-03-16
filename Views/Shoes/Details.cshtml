@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<main class="bg_gray">
+<main class="bg_white">
     <div class="container margin_30">
         <div class="page_header">
             <h1>@Html.DisplayFor(model => model.name)</h1>
@@ -44,13 +44,19 @@
                         <div class="row">
                             <label class="col-xl-7 col-lg-5  col-md-6 col-6 pt-0"><strong>Color</strong></label>
                             <div class="col-xl-5 col-lg-5 col-md-6 col-6 colors">
-                                <ul>
-                                    <div>Thiếu color rồi</div>
+                              @*  <ul>*@
+                                    <div style="position: relative; top: -10px;" class="custom-select-form">
+                                        <select class="wide">
+                                        <option value="black" selected="">Black</option>
+                                            <option value="White">White</option>
+                                            
+                                        </select>
+                                    </div>
                                     @*	<li><a href="#0" class="color color_1 active"></a></li>
                                         <li><a href="#0" class="color color_2"></a></li>
                                         <li><a href="#0" class="color color_3"></a></li>
                                         <li><a href="#0" class="color color_4"></a></li>*@
-                                </ul>
+                               @* </ul>*@
                             </div>
                         </div>
                         <div class="row">
@@ -58,10 +64,10 @@
                             <div class="col-xl-5 col-lg-5 col-md-6 col-6">
                                 <div class="custom-select-form">
                                     <select class="wide">
-                                        <option value="" selected="">Small (S)</option>
-                                        <option value="">M</option>
-                                        <option value=" ">L</option>
-                                        <option value=" ">XL</option>
+                                        <option value="43" selected="">43</option>
+                                        <option value="44">44</option>
+                                        <option value="45">45</option>
+                                        <option value="46">46</option>
                                     </select>
                                 </div>
                             </div>
@@ -84,7 +90,13 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-lg-7 col-md-6">
-                                <div class="price_main"><span class="new_price">$@Html.DisplayFor(model => model.price)</span><span class="percentage">-20%</span> <span class="old_price">$160.00</span></div>
+                                <div class="price_main">
+                                    <span class="new_price">
+                                        @Html.DisplayFor(model => model.price)
+
+
+                                    </span>
+                                </div>
                             </div>
                             
                             <div class="col-lg-5 col-md-6">

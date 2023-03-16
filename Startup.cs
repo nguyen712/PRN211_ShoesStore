@@ -74,7 +74,7 @@ namespace PRN211_ShoesStore
 			services.AddSingleton<ShoesRepository>();
 			services.AddSingleton<ShoesImageRepository>();
 			services.AddSingleton<UserService>();
-            services.AddSingleton<OrderService>();
+            //services.AddSingleton<OrderService>();
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,9 +16,9 @@
 		<!-- /top_banner -->
 			
 			<div id="stick_here"></div>		
-			<div class="toolbox elemento_stick">
+			@*<div class="toolbox elemento_stick">
 				<div class="container">
-				<ul class="clearfix">
+				@*<ul class="clearfix">
 					<li>
 						<div class="sort_select">
 							<select name="sort" id="sort">
@@ -192,11 +192,12 @@
 				</div></div></div>
 				</div>
 			</div>
-			<!-- /toolbox -->
+			<!-- /toolbox -->*@
 
 			<div class="container margin_30">
 			<div class="row small-gutters">
-				@foreach (var item in Model) {
+			@if (Model != null) 
+			@foreach (var item in Model) {
 				<div class="col-6 col-md-4 col-xl-3">
 					<div class="grid_item">
 						<figure>

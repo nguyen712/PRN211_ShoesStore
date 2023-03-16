@@ -15,6 +15,7 @@ namespace PRN211_ShoesStore.Models.Entity
 
         public string image { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:#,#} VNĐ", ApplyFormatInEditMode = false)]
         public decimal price { get; set; }
 
         [StringLength(200)]

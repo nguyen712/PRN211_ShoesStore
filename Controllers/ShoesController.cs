@@ -50,6 +50,24 @@ namespace PRN211_ShoesStore.Controllers
             return View(shoes);
         }
 
+        public ActionResult Search(string searchTerm)
+        {
+            // Perform a search for the specified searchTerm
+            // and return the results to the view
+
+            if (searchTerm == null)
+            {
+                return View("Index");
+            }
+
+            var results = _shoesService.GetShoes()
+                .Where(p => p.name.Contains(searchTerm))
+                .ToList();
+
+            return View("Index", results);
+        }
+
+
         // GET: Shoes/Create
         public IActionResult Create()
         {
