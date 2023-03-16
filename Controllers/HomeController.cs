@@ -90,6 +90,16 @@ namespace PRN211_ShoesStore.Controllers
             return View("Views/Home/Login.cshtml");
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("UserId");
+            HttpContext.Session.Remove("Role");
+            HttpContext.Session.Remove("Status");
+            HttpContext.Session.Clear();
+
+            return View("Views/Home/Login.cshtml");
+        }
+
         [MyAuthenFIlter("User")]
         [HttpGet]
         public IActionResult Register()
