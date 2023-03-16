@@ -5,7 +5,13 @@ using System;
 
 namespace PRN211_ShoesStore.Models.Entity
 {
-    [Table("Order")]
+	public enum OrderStatus
+	{
+		WAITING = 0,
+		ACCEPTED = 1,
+        DENIED = 2
+	}
+	[Table("Order")]
     public class Order
     {
         [Key]

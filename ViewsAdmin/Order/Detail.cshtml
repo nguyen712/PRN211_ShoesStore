@@ -135,21 +135,29 @@
 												<li class="mid pb-3 text-dark">
 													<strong style="margin-left: 25px;">Order Status:</strong>
 													<select id="NewStatus" name="NewStatus" class="d-inline-block float-right text-default">
-														@if (Model.Order?.status == true)
+														@if (Model.Order.status == (int)OrderStatus.ACCEPTED)
 														{
-															<option value=@(true) selected>Accepted</option>
+															<option value=@((int)OrderStatus.WAITING) selected>Accepted</option>
 														}
 														else
 														{
-															<option value=@(true)>Accepted</option>
+															<option value=@((int)OrderStatus.ACCEPTED)>Accepted</option>
 														}
-														@if (Model.Order?.status == false)
+														@if (Model.Order.status == (int)OrderStatus.WAITING)
+														{
+															<option value=@(false) selected>Waiting</option>
+														}
+														else 
+														{
+															<option value=@((int)OrderStatus.WAITING)>Waiting</option>
+														}
+														@if (Model.Order.status == (int)OrderStatus.DENIED)
 														{
 															<option value=@(false) selected>Denied</option>
 														}
 														else
 														{
-															<option value=@(false)>Denied</option>
+															<option value=@((int)OrderStatus.WAITING)>Denied</option>
 														}
 													</select>
 												</li>

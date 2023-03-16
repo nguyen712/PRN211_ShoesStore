@@ -77,11 +77,15 @@
                                                 <td>@order.user.phone</td>
                                                 <td>@order.user.address</td>
                                                
-                                                @if (order.status)
+                                                @if (order.status==(int)OrderStatus.WAITING)
                                                 {
-                                                    <td>Accepted</td>                    
+                                                    <td>Waiting</td>                    
                                                 }
-                                                else if (!order.status)
+                                                else @if (order.status == (int)OrderStatus.ACCEPTED)
+                                                {
+                                                    <td>Accepted</td>                        
+                                                }
+                                                @if (order.status==(int)OrderStatus.DENIED)
                                                 {
                                                     <td>Denied</td>                        
                                                 }

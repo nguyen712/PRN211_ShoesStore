@@ -3,6 +3,6 @@
 	public class ChangeOrderStatusRequest
 	{
 		public int OrderId { get; set; }
-		public bool NewStatus { get; set; }
+		public int NewStatus { get; set; }
 	}
 }
