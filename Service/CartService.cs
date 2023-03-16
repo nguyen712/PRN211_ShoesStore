@@ -43,7 +43,7 @@ namespace PRN211_ShoesStore.Service
                       join product in specificallyShoesList on shoes.id equals product.id
                       join shoesAb in abstractShoes on product.shoes.id equals shoesAb.id
                       join cart in carts on cartItem.cartItemId equals cart.Id
-                      select new CartItemDetails(cartItem.Id, cart, shoes, cartItem.ShoesName, shoesAb.image, cartItem.Quantity, cartItem.Price);
+                      select new CartItemDetails(cartItem.Id, cart, shoes, cartItem.ShoesName, shoesAb.image, cartItem.Quantity, cartItem.Price, cartItem.ShoesSize);
 
 
             return res;
@@ -62,6 +62,10 @@ namespace PRN211_ShoesStore.Service
 
         public bool UpdateCartItem(int cartItemId, int cartId, int quantity, int shoesId)
         {
+            if (quantity < 0)
+            {
+                return false;
+            }
             CartItem cart = _cartItemRepository.GetById(cartId);
             CartItemDetails cartItem = _cartItemDetailsRepository.GetById(cartItemId);
             SpecificallyShoes shoes = _specificallyShoes.GetById(cartItem.specificallyShoesId);
@@ -85,26 +89,53 @@ namespace PRN211_ShoesStore.Service
             return _cartItemRepository.Update(cart);
         }
 
-        public void addToCartItem(int UserId, int specificallyShoesId, decimal price, double sizeId, int quantity)
+        public void addToCartItem(int UserId, int shoesId, decimal price, double sizeId, int quantity)
         {
-            SpecificallyShoes specificallyShoes = _specificallyShoes.GetById(specificallyShoesId);
+
+            List<SpecificallyShoes> specificallyShoes = _specificallyShoes.GetData(s=> s.shoes.id == shoesId).ToList();
             CartItem cart = new CartItem();
             CartItemDetails cartItemDetails = new CartItemDetails();
             CartItem existCart = _cartItemRepository.GetData().ToList().Where(c => c.userId == UserId).FirstOrDefault();
             List<CartItemDetails> productsCartIsExisted = _cartItemDetailsRepository.GetData().ToList().Where(c => c.cartItemId == existCart.Id).ToList();
-            Shoes shoes = _shoesRepository.GetData().Where(s => s.id == specificallyShoes.shoesId).FirstOrDefault();
-            Size sizes = _sizesRepository.GetData().Where(s => s.sizeNumber.Equals(sizeId.ToString())).FirstOrDefault();
-            List<SpecificallyShoesSize> specificallyShoesSize = _sizeRepository.GetData().Where(size => size.specificallyShoesId == specificallyShoes.id && size.sizeId == sizes.id).ToList();
-            Size sizeOfShoes = new Size();
-            foreach (var i in specificallyShoesSize)
+            
+            if (specificallyShoes.Count == 0)
             {
-                sizeOfShoes = _sizesRepository.GetData().Where(s => s.id == i.sizeId).FirstOrDefault();
+                throw new Exception($"Shoes id {shoesId} is not existed.");
             }
+            Size sizes = _sizesRepository.GetData().Where(s => s.sizeNumber.Equals(sizeId.ToString())).FirstOrDefault();
+            Shoes shoes = new Shoes();
+            long quantitySpecShoes = 0;
+            int shoesSpecId = 0;
+            foreach (var item in specificallyShoes)
+            {
+                List<SpecificallyShoesSize> specificallyShoesSize = _sizeRepository.GetData(s => s.shoes.id == item.id && s.size.id == sizes.id).ToList();
+                if (specificallyShoesSize.Count > 0)
+                {
+                    shoes = _shoesRepository.GetById(shoesId);
+                    if (shoes != null)
+                    {
+                        quantitySpecShoes = item.quantity;
+                        shoesSpecId = item.id;
+                    }
+                }
+                
+            }
+            
+            
+
+            //SpecificallyShoesSize specificallyShoesSize = new SpecificallyShoesSize();
+            /*foreach (var item in specificallyShoes)
+            {*/
+            
+
+            /*}*/
+            //Size sizeOfShoes = _sizesRepository.GetData().Where(s => s.id == specificallyShoesSize.sizeId).FirstOrDefault();
+            
             if (quantity < 0)
             {
                 throw new Exception("Quantity can not be a negative number.");
             }
-            bool checkQuantity = quantity < specificallyShoes.quantity;
+            bool checkQuantity = quantity < quantitySpecShoes;
             if (checkQuantity == false)
             {
                 throw new Exception("This shoes is sold out");
@@ -115,13 +146,10 @@ namespace PRN211_ShoesStore.Service
 
                 foreach (var productCartIsExisted in productsCartIsExisted)
                 {
-                    if (productCartIsExisted.specificallyShoesId == specificallyShoesId)
+                    if (productCartIsExisted.specificallyShoesId == shoesSpecId && productCartIsExisted.ShoesSize == Double.Parse(sizes.sizeNumber))
                     {
-                        
-                        /*if (checkQuantity)
-                        {*/
-                            productCartIsExisted.Quantity = quantity;
-                            productCartIsExisted.Price = quantity * price;
+                            productCartIsExisted.Quantity += quantity;
+                            productCartIsExisted.Price = productCartIsExisted.Quantity * price;
                             decimal totalPrice = 0;
                             _cartItemDetailsRepository.Update(productCartIsExisted);
                             List<CartItemDetails> cartDetails = _cartItemDetailsRepository.GetData().Where(c => c.cartItemId == existCart.Id).ToList();
@@ -136,26 +164,21 @@ namespace PRN211_ShoesStore.Service
 
                             if (cartDetails.Count == 1)
                             {
-                                totalPrice = quantity * price;
+                                totalPrice = productCartIsExisted.Quantity * price;
                             }
 
                             existCart.Price = totalPrice;
                             _cartItemRepository.Update(existCart);
-
                             return;
-                        /*}
-                        else
-                        {
-                            throw new Exception("This shoes is sold out");
-                        }*/
+                        
                     }
                 }
                 cartItemDetails.Price = price;
                 cartItemDetails.Quantity = quantity;
-                cartItemDetails.ShoesName = specificallyShoes.name;
+                cartItemDetails.ShoesName = shoes.name;
                 cartItemDetails.ShoesImg = shoes.image;
-                cartItemDetails.ShoesSize = Double.Parse(sizeOfShoes.sizeNumber);
-                cartItemDetails.specificallyShoesId = specificallyShoes.id;
+                cartItemDetails.ShoesSize = Double.Parse(sizes.sizeNumber);
+                cartItemDetails.specificallyShoesId = shoesSpecId;
                 cartItemDetails.cartItemId = existCart.Id;
                 _cartItemDetailsRepository.Insert(cartItemDetails);
                 List<CartItemDetails> items = _cartItemDetailsRepository.GetData().Where(c => c.cartItemId == existCart.Id).ToList();
@@ -175,10 +198,10 @@ namespace PRN211_ShoesStore.Service
                 CartItem newCart = _cartItemRepository.GetData().First();
                 cartItemDetails.Price = price;
                 cartItemDetails.Quantity = quantity;
-                cartItemDetails.ShoesName = specificallyShoes.name;
+                cartItemDetails.ShoesName = shoes.name;
                 cartItemDetails.ShoesImg = shoes.image;
-                cartItemDetails.ShoesSize = Double.Parse(sizeOfShoes.sizeNumber);
-                cartItemDetails.specificallyShoesId = specificallyShoes.id;
+                cartItemDetails.ShoesSize = Double.Parse(sizes.sizeNumber);
+                cartItemDetails.specificallyShoesId = shoesSpecId;
                 cartItemDetails.cartItemId = newCart.Id;
                 _cartItemDetailsRepository.Insert(cartItemDetails);
             }

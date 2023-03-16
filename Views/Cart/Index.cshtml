@@ -29,6 +29,9 @@
                                 Subtotal
                             </th>
                             <th>
+                                Size Number
+                            </th>
+                            <th>
 
                             </th>
                         </tr>
@@ -54,7 +57,10 @@
                                 </div>
                             </td>
                             <td>
-                                <strong>@item.Price</strong>
+                                <strong>@item.Price.ToString("#,##0.00")</strong>
+                            </td>
+                            <td>
+                                <strong>@item.ShoesSize</strong>
                             </td>
                             <td class="options">
                                 <a href="https://localhost:44326/Cart/Delete?cartItemId=@item.Id&cartId=@item.CartItem.Id"><i class="ti-trash"></i></a>

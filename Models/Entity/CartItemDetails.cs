@@ -8,7 +8,7 @@ namespace PRN211_ShoesStore.Models.Entity
 	{
 		
 
-		public CartItemDetails(int id, CartItem cartItem, SpecificallyShoes specificallyShoes, string shoesName, string image, int quantity, decimal price)
+		public CartItemDetails(int id, CartItem cartItem, SpecificallyShoes specificallyShoes, string shoesName, string image, int quantity, decimal price, double shoesSize)
 		{
 			Id = id;
 			CartItem = cartItem;
@@ -17,7 +17,8 @@ namespace PRN211_ShoesStore.Models.Entity
 			ShoesImg = image;
 			Quantity = quantity;
 			Price = price;
-		}
+            ShoesSize = shoesSize;
+        }
 
         public CartItemDetails()
         {
