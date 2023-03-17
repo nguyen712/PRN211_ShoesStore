@@ -19,7 +19,7 @@ namespace PRN211_ShoesStore.Repository.vH
 
         public ICollection<Shoes> GetAll()
         {
-            return _appDbContext.shoes
+            return _appDbContext.shoes.OrderByDescending(s=>s.id)
                         .Include(cs => cs.CategoryShoes)
                             .ThenInclude(c => c.category)
                         .Include(sc => sc.ShoesColors)

@@ -75,7 +75,7 @@
                                         <th data-sortable="true" data-searchable="false">
                                             <a>Status</a>
                                         </th>
-                                        <th data-sortable="true" data-searchable="false">
+                                        <th data-sortable="true" data-visible="false" data-searchable="false">
                                             <a>Lauch Date</a>
                                         </th>
                                         <th data-sortable="true" data-searchable="true">
@@ -197,8 +197,8 @@
                                                                         <td style="font-weight:normal;">@subItem.name</td>
                                                                         <td style="font-weight:normal;">@subItem.price.ToString("#,##0.00")</td>
                                                                         <td style="font-weight:normal;">@subItem.quantity</td>
-                                                                        <td style="font-weight:normal;">@subItem.ColorSpecificallyShoes.FirstOrDefault().color.Name""</td>
-                                                                        <td style="font-weight:normal;">@subItem.SpecificallyShoesSize.FirstOrDefault().size.sizeNumber"</td>
+                                                                        <td style="font-weight:normal;">@subItem.ColorSpecificallyShoes.FirstOrDefault().color.Name</td>
+                                                                        <td style="font-weight:normal;">@subItem.SpecificallyShoesSize.FirstOrDefault().size.sizeNumber</td>
                                                                         <td style="font-weight:normal;">@(subItem.status ? "Active" : "Inactive")</td>
                                                                         <td>
                                                                             <a href="#editSpecificShoesModal" class="editSpecificShoes" data-toggle="modal" 
@@ -374,7 +374,7 @@
                     </div>
                     <div class="form-group">
                         <label>Lauch Date:</label>
-                        <input type="datetime-local" id="datetime" name="lauch" class="form-control" />
+                        <input type="datetime-local" id="datetime" name="LaunchDate" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label>Shoes Detail</label>
@@ -591,7 +591,7 @@
             $("#edit-price").val(price);
             const dateObj = new Date(lauch);
             const formattedDate = dateObj.toISOString().slice(0, 16);
-            $("#editShoesModal input[name=lauch]").val(formattedDate);
+            $("#editShoesModal input[name=LaunchDate]").val(formattedDate);
 
             const idCate = categories.map(category => category.id);
             const idColor = color.map(color => color.Id);
