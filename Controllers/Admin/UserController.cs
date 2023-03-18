@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository.vH.Interface;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace PRN211_ShoesStore.Controllers.Admin
 {
+    [MyAuthenFIlter("Admin")]
     [Route("Admin/User")]
     public class UserController : Controller
     {

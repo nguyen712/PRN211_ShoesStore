@@ -23,7 +23,7 @@ namespace PRN211_ShoesStore.Utils
 			smtp.Port = 587;
             
             smtp.EnableSsl = true;
-			smtp.Timeout= 5000;
+			smtp.Timeout= 6000;
 			smtp.Credentials = new NetworkCredential(from, "Nhaanhxinhdep@7812");
 			try
 			{

@@ -200,6 +200,8 @@ namespace PRN211_ShoesStore.Controllers
                 else if (user.role.roleName.Equals("Admin"))
                 {
                     HttpContext.Session.SetInt32("UserId", user.id);
+                    HttpContext.Session.SetString("Role", user.role.roleName);
+                    HttpContext.Session.SetString("Status", user.status.ToString());
                     return RedirectToAction("Index", "Admin");
                 }
                 else

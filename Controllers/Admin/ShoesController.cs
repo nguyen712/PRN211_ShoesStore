@@ -24,6 +24,7 @@ using System.Collections;
 
 namespace PRN211_ShoesStore.Controllers.Admin
 {
+    [MyAuthenFIlter("Admin")]
     [Route("Admin/Shoes")]
     public class ShoesController : Controller
     {

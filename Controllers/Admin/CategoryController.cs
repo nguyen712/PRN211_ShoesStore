@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Web.CodeGeneration;
+using PRN211_ShoesStore.Filter;
 using PRN211_ShoesStore.Models.DTO;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Repository.vH;
@@ -12,6 +13,7 @@ using System.Linq;
 
 namespace PRN211_ShoesStore.Controllers.Admin
 {
+    [MyAuthenFIlter("Admin")]
     [Route("Admin/Category")]
     public class CategoryController : Controller
     {

@@ -8,9 +8,11 @@ using PRN211_ShoesStore.Repository.vH.Interface;
 using PRN211_ShoesStore.Models.Entity;
 using PRN211_ShoesStore.Models.DTO;
 using PRN211_ShoesStore.Repository.vH;
+using PRN211_ShoesStore.Filter;
 
 namespace PRN211_ShoesStore.Controllers.Admin
 {
+    [MyAuthenFIlter("Admin")]
     [Route("Admin/Order")]
 
     public class OrderController : Controller
