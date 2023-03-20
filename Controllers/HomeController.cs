@@ -161,7 +161,7 @@ namespace PRN211_ShoesStore.Controllers
                 flag = false;
             }
 
-            bool res = MailUtils.SendMail("nguyenbkse151446@fpt.edu.vn", email, "Mail Xac Nhan Email Da dang ky thanh cong", "Hello Mr/Mrs " + firstName);
+            bool res = MailUtils.SendMail("gmail", "pwd",email, "Mail Xac Nhan Email Da dang ky thanh cong", "Hello Mr/Mrs " + firstName);
             if (res == false)
             {
                 TempData["ErrorEmailFormat"] = "Email is not existed";

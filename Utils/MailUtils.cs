@@ -6,7 +6,7 @@ namespace PRN211_ShoesStore.Utils
 {
 	public class MailUtils
 	{
-		public static bool SendMail(string from, string to, string subject, string body)
+		public static bool SendMail(string from,string pwd,string to, string subject, string body)
 		{
 			using var message = new MailMessage();
 			message.BodyEncoding = System.Text.Encoding.UTF8;
@@ -24,7 +24,7 @@ namespace PRN211_ShoesStore.Utils
             
             smtp.EnableSsl = true;
 			smtp.Timeout= 6000;
-			smtp.Credentials = new NetworkCredential(from, "Nhaanhxinhdep@7812");
+			smtp.Credentials = new NetworkCredential(from, pwd);
 			try
 			{
 				smtp.Send(message);

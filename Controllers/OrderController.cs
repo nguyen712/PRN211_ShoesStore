@@ -33,7 +33,7 @@ namespace PRN211_ShoesStore.Controllers
 			try
 			{
                 _orderService.CheckOut(userId, cartItemId, totalPrice);
-				MailUtils.SendMail("nguyenbkse151446@fpt.edu.vn", user.email, "Xác nhận thanh toán thành công", "Cảm ơn bạn đã đặt đơn hàng mệnh giá " + totalPrice + " đơn hàng của bạn đang trong thời gian xác nhận.");
+				MailUtils.SendMail("gmail", "pwd", user.email, "Xác nhận thanh toán thành công", "Cảm ơn bạn đã đặt đơn hàng mệnh giá " + totalPrice + " đơn hàng của bạn đang trong thời gian xác nhận.");
 				return View();
             }
 			catch (Exception ex)
